@@ -1,0 +1,125 @@
+#include"Assignment.h"
+
+string uppercase(string name) {
+	for(int i=0; i<name.length(); i++) {
+		name[i]=toupper(name[i]);
+	}
+	return name;
+}
+
+string from_int_to_string(int N) {
+	stringstream ss;
+	ss << N;
+	string str = ss.str();
+	return str;
+}
+
+int check_valid_date(date date_struct) {
+	int ny_days [13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	int ly_days [13] = {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	if (date_struct.month < 1 || date_struct.month > 12) return 0;
+	if (date_struct.day < 1) return 0;
+	if ((date_struct.year % 4 == 0 && date_struct.year%100!=0)||date_struct.year%400==0) {
+		if (date_struct.day > ly_days[date_struct.month])
+			return 0;
+	} else {
+		if (date_struct.day > ny_days[date_struct.month]) return 0;
+	}
+	if (date_struct.year < 1900 || date_struct.year>2017) return 0;
+	return 1;
+}
+
+string input_date() {
+	date input;
+	do {
+		cout<<"Nhap ngay thang nam sinh: "<<endl;
+		cout<<"Chi nhap so, khong nhap ky tu nao khac"<<endl;
+		cout<<"Nhap ngay sinh (VD ngay 14 thang 2 nam 1997 thi nhap 14):"<<endl;
+		fflush(stdin);
+		cin>>input.day;
+		cout<<"Nhap thang sinh (VD ngay 14 thang 2 nam 1997 thi nhap 2):"<<endl;
+		fflush(stdin);
+		cin>>input.month;
+		cout<<"Nhap nam sinh (VD ngay 14 thang 2 nam 1997 thi nhap 1997):"<<endl;
+		fflush(stdin);
+		cin>>input.year;
+		if(check_valid_date(input)==0) cout<<"Ngay ban nhap khong hop le, vui long nhap lai"<<endl;
+	} while(check_valid_date(input)==0);
+	string day=from_int_to_string(input.day);
+	string month=from_int_to_string(input.month);
+	string year=from_int_to_string(input.year);
+	string birthday=day+" "+month+" "+year;
+	return birthday;
+}
+
+int check_number(string N) {
+	for(int i=0; i<N.length(); i++) {
+		if(isdigit(N[i])==0) return 0;
+	}
+	return 1;
+}
+
+int check_string(string N) {
+	for(int i=0; i<N.length(); i++) {
+		if(isalpha(N[i])==0 && N[i]!=' ') return 0;
+	}
+	return 1;
+}
+
+int check_not_blankspace(string N){
+	if(N=="") return 0;
+	return 1; 
+}
+
+int check_username_blank_space(string username) {
+	//TO DO : check special character
+	for(int i=0; i<username.length(); i++) {
+		if(username[i]==' ') return 0;
+	}
+	return 1;
+}
+
+int check_username_legal(string username){
+	for(int i=0; i<username.length(); i++) {
+		if(isalnum(username[i])==0){
+			if(username[i]!='_' && username[i]!='-') return 0;
+		}
+	}
+	return 1;
+}
+int stringLength = sizeof(alphanum) - 1;
+
+char genRandom() {
+	return alphanum[rand() % stringLength];
+}
+string randomstring(){
+		srand(time(0));
+	std::string Str;
+	for(unsigned int i = 0; i < MAXIDANNOUCEMENT; ++i) {
+		Str += genRandom();
+
+	}
+	return Str;
+}
+
+string getDay(string send_day){
+	string day, month,  year;
+	stringstream ss;
+	ss.str(send_day);
+	ss>>day>>month>>year;
+	return day+"/"+month+"/"+year;
+}
+
+
+string currentDateTime() {
+   time_t rawtime;
+  struct tm * timeinfo;
+  char buffer[80];
+  time (&rawtime);
+  timeinfo = localtime(&rawtime);
+  strftime(buffer,sizeof(buffer),"%d-%m-%Y %I:%M:%S",timeinfo);
+  string str(buffer);
+  return str;
+}
+
+
