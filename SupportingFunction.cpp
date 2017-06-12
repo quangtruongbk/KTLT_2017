@@ -136,5 +136,29 @@ string get_Category_Book_string(string choice) {
 	if(choice=="12") return  "THE LOAI KHAC" ;
 }
 
+int get_category_number(string category, int categoryarray[MAXCATEGORY]){
+	stringstream ss;
+	ss<<category;
+	string data;
+	int categoryint;
+	for(int i=0; i<MAXCATEGORY;i++) categoryarray[i]=0;
+	while(!ss.eof()){
+		ss>>data;
+		categoryint=atoi(data.c_str());
+		categoryarray[categoryint]=1;
+	//	cout<<"test category "<<categoryint<<endl;
+	}
+}
 
+string print_category(string category){
+	int categoryarray[MAXCATEGORY];
+	get_category_number(category,categoryarray);
+	string N;
+	for(int i=0;i<MAXCATEGORY;i++){
+		if(categoryarray[i]==1) N=get_Category_Book_string(from_int_to_string(i))+","+N;
+	}
+	int length=N.length();
+	if(N[length-1]==',') N[length-1]=' ';
+	return N;
+}
 
