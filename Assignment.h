@@ -12,6 +12,7 @@
 #include <ctime>
 #define MAXROLE 3
 #define MAXIDANNOUCEMENT 5
+#define MAXIDBOOK 5
 #pragma warning(disable:4996)
 using namespace std;
 
@@ -26,6 +27,7 @@ struct Book {
 	string ISBN;
 	string name;
 	string author;
+	string category;
 	string publisher;
 	int year;
 	int amount;
@@ -142,6 +144,7 @@ int check_not_blankspace(string N);
 string getDay(string send_day);
 string currentDateTime();
 string randomstring();
+string getCategoryBook(string choice);
 //Function to check exist of ID and username and CMND
 int check_ID_in_file(string ID); //check su ton tai cua ID trong user.txt
 int check_ID_in_waiting(string ID);//Check su ton tai cua ID trong manageuser.txt
@@ -151,7 +154,7 @@ int check_CMND_in_file(string CMND);
 int check_CMND_exist(string CMND);
 int check_ID_Announcement_in_file(account *acc, string ID);
 int check_ID_Announcement_in_archive(string ID);
-
+int check_ISBN_Book(string ID);
 //Function that use for all user
 void firstmenu(); ////////////////////////////////////////////////////////////TODO
 int login(string username, string password, account *&acc);
@@ -183,8 +186,7 @@ void search_book_all();//To do
 void search_book_by_name();//TO do
 void search_book_by_author();//To do
 void search_book(); //To do 1
-void read_announcement_function(); //TO DO
-void read_announcememt(); //TO DO 2
+
 void borrow_book();//3
 void cart(); //Gio hang TO DO //4
 void paid(); //To do //5
@@ -208,10 +210,12 @@ void delete_book(); //3
 void fine_reader_lost_book(); //4 //phat mat sach
 void fine_reader_late_pay_book(); //5 //phat tre sach
 void add_announcement_to_archive(announcement *newAnnouce,account *acc_librarian ,string usernamethatsend);
-void send_announcement_to_all(announcement *annouce);
+void send_announcement_to_all_reader(account *acc);
 void send_announcement_to_individual(account *acc_librarian,string role_send);
 void send_announcement(account *acc);
-
+void add_book_to_store_function(account *acc, Book *newBook);
+void add_book_to_store(account *acc);
+void add_book(account *acc);
 //Function for book
 int getbook(Book& book,fstream& outfile, int row);
 void printline();
@@ -223,6 +227,7 @@ void setbookinfo(string& info, Book book,int key);
 void find_key(string str, int selection);
 void search_key(string str);
 void search_name(string str);
+string create_ID_book();
 
 
 #endif
