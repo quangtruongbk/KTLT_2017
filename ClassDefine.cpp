@@ -1,4 +1,3 @@
-
 #include"Assignment.h"
 
 //USER
@@ -245,10 +244,10 @@ string announcement::getID() {
 	return this->ID;
 }
 void announcement::send_to_user(string username) {
-	fstream outfile;
+		fstream outfile;
 	string filetemp="temp_"+username+".txt";
 	outfile.open(filetemp.c_str(), ios_base::app);
-	outfile << ID << "\n";
+	outfile << "1" << "\n";
 	outfile << announce << "\n";
 	outfile << date <<"\n";
 	outfile << seen << "\n";
@@ -258,8 +257,16 @@ void announcement::send_to_user(string username) {
 	string datatemp;
 	outfile.open(filetemp.c_str(), ios_base::app);
 	outfilereal.open(filename.c_str(), ios_base::app| ios::in);
+	int count=1;
+	int STT;
 	while(getline(outfilereal,datatemp)) {
+		if(count%4==1) {
+			STT=atoi(datatemp.c_str());
+			STT++;
+			datatemp=from_int_to_string(STT);
+		}
 		outfile << datatemp << "\n";
+		count++;
 	}
 	outfilereal.close();
 	outfile.close();
@@ -273,4 +280,3 @@ string announcement::create_ID() {
 	} while(check_ID_Announcement_in_archive(newID)==1);
 	return newID;
 }
-
