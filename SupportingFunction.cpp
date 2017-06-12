@@ -145,7 +145,7 @@ int get_category_number(string category, int categoryarray[MAXCATEGORY]){
 	while(!ss.eof()){
 		ss>>data;
 		categoryint=atoi(data.c_str());
-		categoryarray[categoryint]=1;
+		categoryarray[categoryint-1]=1;
 	//	cout<<"test category "<<categoryint<<endl;
 	}
 }
@@ -155,10 +155,9 @@ string print_category(string category){
 	get_category_number(category,categoryarray);
 	string N;
 	for(int i=0;i<MAXCATEGORY;i++){
-		if(categoryarray[i]==1) N=get_Category_Book_string(from_int_to_string(i))+","+N;
+		if(categoryarray[i]==1) N=N+","+get_Category_Book_string(from_int_to_string(i+1));
 	}
-	int length=N.length();
-	if(N[length-1]==',') N[length-1]=' ';
+	if(N[0]==',') N[0]=' ';
 	return N;
 }
 
