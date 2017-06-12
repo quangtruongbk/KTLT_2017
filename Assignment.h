@@ -13,6 +13,7 @@
 #define MAXROLE 3
 #define MAXIDANNOUCEMENT 5
 #define MAXIDBOOK 5
+#define MAXCATEGORY 12
 #pragma warning(disable:4996)
 using namespace std;
 
@@ -145,6 +146,8 @@ string getDay(string send_day);
 string currentDateTime();
 string randomstring();
 string getCategoryBook(string choice);
+int get_category_number(string category, int categoryarray[MAXCATEGORY]);
+string print_category(string category);
 //Function to check exist of ID and username and CMND
 int check_ID_in_file(string ID); //check su ton tai cua ID trong user.txt
 int check_ID_in_waiting(string ID);//Check su ton tai cua ID trong manageuser.txt
@@ -231,5 +234,3 @@ string create_ID_book();
 
 
 #endif
-
-
