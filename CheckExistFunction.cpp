@@ -123,6 +123,31 @@ fstream outfile;
 	outfile.close();
 }
 
+int check_ISBN_Book(string ID) {
+	fstream outfile;
+	outfile.open("book.txt", ios::in);
+	string datatemp;
+	Book *temp=new Book();
+	while (getline(outfile,  temp->ISBN)){
+		getline(outfile, temp->name);
+		getline(outfile,  temp->author);
+		getline(outfile, temp->category);
+		getline(outfile, temp->publisher);
+		getline(outfile, datatemp);
+		temp->year=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp->amount=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp->price=atoi(datatemp.c_str());
+		if(ID==temp->ISBN){
+			outfile.close();
+			return 1;
+			}
+	}
+	return 0;
+	outfile.close();
+}
+
 int check_ID_Announcement_in_archive(string ID) {
 	fstream outfile;
 	string filename="archive_announcement_database.txt";

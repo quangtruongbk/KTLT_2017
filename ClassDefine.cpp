@@ -238,22 +238,33 @@ void announcement::setSeen(string newSeen) {
 string announcement::getSeen() {
 	return this->seen;
 }
-void announcement::setID(string newID){
+void announcement::setID(string newID) {
 	this->ID=newID;
-	}
-string announcement::getID(){
+}
+string announcement::getID() {
 	return this->ID;
 }
-void announcement::send_to_user(string username){
+void announcement::send_to_user(string username) {
 	fstream outfile;
-	string filename="announcement_"+username+".txt";
-	outfile.open(filename.c_str(), ios_base::app);
+	string filetemp="temp_"+username+".txt";
+	outfile.open(filetemp.c_str(), ios_base::app);
 	outfile << ID << "\n";
 	outfile << announce << "\n";
 	outfile << date <<"\n";
 	outfile << seen << "\n";
 	outfile.close();
-//	add_announcement_to_archive(this , username); 
+	fstream outfilereal;
+	string filename="announcement_"+username+".txt";
+	string datatemp;
+	outfile.open(filetemp.c_str(), ios_base::app);
+	outfilereal.open(filename.c_str(), ios_base::app| ios::in);
+	while(getline(outfilereal,datatemp)) {
+		outfile << datatemp << "\n";
+	}
+	outfilereal.close();
+	outfile.close();
+	remove(filename.c_str());
+	rename(filetemp.c_str(),filename.c_str());
 }
 string announcement::create_ID() {
 	string newID;

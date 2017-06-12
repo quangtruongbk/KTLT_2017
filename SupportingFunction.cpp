@@ -66,9 +66,9 @@ int check_string(string N) {
 	return 1;
 }
 
-int check_not_blankspace(string N){
+int check_not_blankspace(string N) {
 	if(N=="") return 0;
-	return 1; 
+	return 1;
 }
 
 int check_username_blank_space(string username) {
@@ -79,9 +79,9 @@ int check_username_blank_space(string username) {
 	return 1;
 }
 
-int check_username_legal(string username){
+int check_username_legal(string username) {
 	for(int i=0; i<username.length(); i++) {
-		if(isalnum(username[i])==0){
+		if(isalnum(username[i])==0) {
 			if(username[i]!='_' && username[i]!='-') return 0;
 		}
 	}
@@ -92,17 +92,16 @@ int stringLength = sizeof(alphanum) - 1;
 char genRandom() {
 	return alphanum[rand() % stringLength];
 }
-string randomstring(){
-		srand(time(0));
+string randomstring() {
+	srand(time(0));
 	std::string Str;
 	for(unsigned int i = 0; i < MAXIDANNOUCEMENT; ++i) {
 		Str += genRandom();
-
 	}
 	return Str;
 }
 
-string getDay(string send_day){
+string getDay(string send_day) {
 	string day, month,  year;
 	stringstream ss;
 	ss.str(send_day);
@@ -112,14 +111,30 @@ string getDay(string send_day){
 
 
 string currentDateTime() {
-   time_t rawtime;
-  struct tm * timeinfo;
-  char buffer[80];
-  time (&rawtime);
-  timeinfo = localtime(&rawtime);
-  strftime(buffer,sizeof(buffer),"%d-%m-%Y %I:%M:%S",timeinfo);
-  string str(buffer);
-  return str;
+	time_t rawtime;
+	struct tm * timeinfo;
+	char buffer[80];
+	time (&rawtime);
+	timeinfo = localtime(&rawtime);
+	strftime(buffer,sizeof(buffer),"%d-%m-%Y %I:%M:%S",timeinfo);
+	string str(buffer);
+	return str;
 }
+
+string get_Category_Book_string(string choice) {
+	if(choice=="1") return  "VAN HOC" ;
+	if(choice=="2") return 	"THIEU NHI";
+	if(choice=="3") return  "KY NANG/DAY NGHE/NGHE NGHIEP" ;
+	if(choice=="4") return 	"KIEN THUC DOI SONG";
+	if(choice=="5") return  "KINH TE/TAI CHINH" ;
+	if(choice=="6") return 	"GIAO KHOA/THAM KHAO/GIAO TRINH";
+	if(choice=="7") return  "TU DIEN" ;
+	if(choice=="8") return 	"TRUYEN TRANH";
+	if(choice=="9") return  "TAM LY" ;
+	if(choice=="10") return "KIEN THUC TONG HOP";
+	if(choice=="11") return  "SACH NUOC NGOAI" ;
+	if(choice=="12") return  "THE LOAI KHAC" ;
+}
+
 
 

@@ -4,7 +4,7 @@
 
 int getbook(Book& book,fstream& outfile, int row) {
 	if (!outfile.eof()) {
-		row = row - row % 6;
+		row = row - row % 8;
 		for (int i = 0; i < row; i++) {
 			string line;
 			getline(outfile, line);
@@ -17,6 +17,7 @@ int getbook(Book& book,fstream& outfile, int row) {
 			book.ISBN = ISBN;
 			getline(outfile, book.name);
 			getline(outfile, book.author);
+			getline(outfile, book.category);
 			getline(outfile, book.publisher);
 			string temp;
 			getline(outfile, temp);
@@ -25,6 +26,9 @@ int getbook(Book& book,fstream& outfile, int row) {
 			getline(outfile, temp);
 			stringstream ss2(temp);
 			ss2 >> book.amount;
+			getline(outfile, temp);
+			stringstream ss3(temp);
+			ss3 >> book.price;
 			return 1;
 		}
 
@@ -200,6 +204,8 @@ void delete_single_book_cart_function(account *acc, string ISBN) {
 		getline(outfile, datatemp);
 		tempbook->author=datatemp;
 		getline(outfile, datatemp);
+		tempbook->category=datatemp;
+		getline(outfile, datatemp);
 		tempbook->publisher=datatemp;
 		getline(outfile, datatemp);
 		tempbook->year=atoi(datatemp.c_str());
@@ -242,6 +248,8 @@ int get_price(account *acc) {
 		tempbook->name=datatemp;
 		getline(outfile, datatemp);
 		tempbook->author=datatemp;
+		getline(outfile, datatemp);
+		tempbook->category=datatemp;
 		getline(outfile, datatemp);
 		tempbook->publisher=datatemp;
 		getline(outfile, datatemp);
@@ -437,7 +445,7 @@ void delete_already_seen_announcement(account *acc) {
 		}
 		outfile.close();
 		set_announcement_already_seen(ID, acc);
-		cout<<"Nhap bat ky de tro ve:"<<endl;
+		cout<<endl<<"Nhap bat ky de tro ve:"<<endl;
 		fflush(stdin);
 		char choice;
 		choice=_getch();
