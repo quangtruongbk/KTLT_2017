@@ -4,17 +4,17 @@
 
 int getbook(Book& book,fstream& outfile, int row) {
 	if (!outfile.eof()) {
-		row = row - row % 8;
+		row = row - row % 8; // row co nghia la hang bat dau getline
+		//ham for dung de bo nhung hang dau tien de getline hang can lay thong tin
 		for (int i = 0; i < row; i++) {
 			string line;
 			getline(outfile, line);
 		}
 		string ISBN;
-		getline(outfile,ISBN);
-		if (book.ISBN == ISBN)
+		getline(outfile,book.ISBN);
+		if (book.ISBN == "")
 			return 0;
 		else {
-			book.ISBN = ISBN;
 			getline(outfile, book.name);
 			getline(outfile, book.author);
 			getline(outfile, book.category);
@@ -37,23 +37,82 @@ int getbook(Book& book,fstream& outfile, int row) {
 }
 
 void printline() {
-	for (int i = 0; i < 132; i++)
+	for (int i = 0; i < 156; i++)
 		cout << "-";
 	cout << endl;
 }
 
 void printtitle() {
 	printline();
-	cout << "| STT |     ISBN       |                      Ten sach               |        Tac gia        |         NXB         |  Nam |So luong|\n";
+	cout << "| STT |     ISBN       |                      Ten sach               |        Tac gia        |        The loai       |         NXB         |  Nam |Gia thue|\n";
 	printline();
 }
 
 
-
-void showbookinfo(Book& book,int count) {
-	cout << "|" << setw(4) << count << " |" << right << setw(15) << book.ISBN << " | " << left << setw(44) << book.name << "| " << setw(21) << book.author << " | " << setw(19) << book.publisher << " | " << right << setw(4) << book.year << " |" << setw(7) << book.amount << " |\n";
+//lay so ky tu nam trong khoang space tuy y, ket thuc tra ve 1 chuoi co ky tu "..." o cuoi neu chuoi co do dai lon hon khoang space.
+string getnumofchar(string str,int space){
+	if (str.length() <= space)
+		return str;
+	else {
+		string temp = "";
+		for (int i = 0; i < (space - 4); i++)
+			temp += str[i];
+		temp += " ...";
+		return temp;
+	}
 }
 
+//tra ve mot string la ten cua the loai tuy thuoc vao ma the loai.
+string getcategoryname(int categoryNo){
+	switch (categoryNo){
+	case 1:
+		return "Van hoc";
+	case 2:
+		return "Thieu nhi";
+	case 3:
+		return "Ky nang, day nghe, nghe nghiep";
+	case 4:
+		return "Kien thuc doi song";
+	case 5:
+		return "Kinh te, tai chinh";
+	case 6:
+		return "Giao khoa, tham khao, giao trinh";
+	case 7:
+		return "Tu dien";
+	case 8:
+		return "Truyen tranh";
+	case 9:
+		return "Tam ly";
+	case 10:
+		return "Kien thuc tong hop";
+	case 11:
+		return "Ngoai van";
+	case 12:
+		return "The loai khac";
+	}
+}
+
+
+//tra ve 1 chuoi danh sach ten cac the loai
+string getallcategoryname(string categorylist){
+	stringstream ss(categorylist);
+	int categoryNo;
+	string temp = "";
+	while (!ss.eof()){
+		ss >> categoryNo;
+		temp += getcategoryname(categoryNo) + " - ";
+	}
+	return temp;
+}
+
+//xuat ra man hinh thong tin cua sach theo 1 hang.
+void showbookinfo(Book& book,int count) {
+	string category = getallcategoryname(book.category);
+	cout << "|" << setw(4) << count << " |" << right << setw(15) << book.ISBN << " | " << left << setw(44) << book.name << "| " << setw(21) << book.author << " | " << setw(21) << getnumofchar(category,21) << " | " << setw(19) << book.publisher << " | " << right << setw(4) << book.year << " |" << setw(7) << book.price << " |\n";
+}
+
+
+//xuat thong tin cua toan bo sach co trong thu vien.
 void show_all_book() {
 	fstream outfile;
 	outfile.open("book.txt", ios::in);
@@ -71,7 +130,7 @@ void show_all_book() {
 	printline();
 	outfile.close();
 }
-
+//putinfo dung de luu du lieu cua sach thanh 1 dong.
 void putinfo(Book& book,string& info) {
 	stringstream ss;
 	string year, amount;
@@ -122,7 +181,7 @@ void find_key(string str, int selection) {
 				putinfo(book, temp);
 				outfile2.close();
 			}
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 8; i++) {
 				getline(outfile, line);
 				curline++;
 				if (outfile.eof())
@@ -144,22 +203,30 @@ void search_key(string str) {
 	string temp;
 	outfile.open("book.txt", ios::in);
 	Book book;
+	string info;
 	printtitle();
 	int curline = 0;
 	int count = 0;
 	if (outfile.is_open()) {
-		while (getline(outfile, line)) {
-			curline++;
-			if (line.find(str, 0) != -1) {
-				outfile2.open("book.txt", ios::in);
-				getbook(book, outfile2, curline);
-				count++;
-				showbookinfo(book, count);
-				putinfo(book, temp);
-				outfile2.close();
+		while (1) {
+			if (getbook(book, outfile, 0) == 1) {
+				putinfo(book,info);
+			}
+			else {
+				break;
 			}
 		}
-		printline();
+		outfile.close();
+		printtitle();
+		stringstream ss(info);
+		while (getline(ss, line)){
+			if (line.find(str, 0) != -1){
+				count++;
+				setbookinfo(line, book, 0);
+				showbookinfo(book, count);
+				putinfo(book, temp);
+			}
+		}
 	} else
 		cout << "Khong co file";
 
@@ -170,12 +237,6 @@ void search_key(string str) {
 	outfile.close();
 }
 
-void search_name(string str) {
-	fstream outfile;
-	fstream outfile2;
-	string line;
-
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //Cart
@@ -296,7 +357,7 @@ void show_all_announcement(account *acc) {
 	cout << "| ID thong bao |             Thong bao                 |        Ngay        |   Da doc ?   |\n";
 	cout << " __________________________________________________________________________________________"<<endl;
 	cout<<endl;
-	announcement *temp=new announcement();
+	announcement *temp = new announcement();
 	while (getline(outfile,datatemp)) {
 		temp->setID(datatemp);
 		getline(outfile, datatemp);
@@ -308,7 +369,7 @@ void show_all_announcement(account *acc) {
 		cout<<"|"<<setw(14)<<left<<temp->getID()<<"|";
 		if(temp->getAnnounce().length()<40) cout<<setw(39)<<left<<temp->getAnnounce();
 		else {
-			for(int i=0; i<36; i++) cout<<left<<temp->getAnnounce()[i];
+			for(int i=0; i<38; i++) cout<<left<<temp->getAnnounce()[i];
 			cout<<"...";
 		}
 		cout<<"|"<<setw(20)<<temp->getDate()<<"|";
