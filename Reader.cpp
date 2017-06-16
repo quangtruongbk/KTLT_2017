@@ -130,23 +130,49 @@ void show_all_book() {
 	printline();
 	outfile.close();
 }
-//putinfo dung de luu du lieu cua sach thanh 1 dong.
-void putinfo(Book& book,string& info) {
-	stringstream ss;
-	string year, amount;
-	ss << book.year << book.amount;
-	ss >> year >> amount;
-	info += book.ISBN + " " + book.name + " " + book.author + " " + book.publisher + " " + year + " " + amount;
+
+void get_book_via_ISBN(Book& book, string ISBN){
+	fstream outfile;
+	fstream outfile2;
+	string line;
+	int curline = 0;
+	outfile.open("book.txt", ios::in);
+	if (outfile.is_open()) {
+		while (getline(outfile, line)){
+			if (line.find(ISBN, 0) != -1){
+				outfile2.open("book.txt", ios::in);
+				getbook(book, outfile2, curline);
+				outfile2.close();
+				break;
+			}
+			curline++;			
+		}
+	}
+	else
+		cout << "Khong co file";
+	outfile.close();
+
 }
 
-void setbookinfo(string& info, Book book,int key) {
-	string line;
-	stringstream ss(info);
-	for (int i = 0; i <= key; i++)
-		getline(ss, line);
-	stringstream ss2(line);
-	ss2 >> book.ISBN >> book.name >> book.author >> book.publisher >> book.year >> book.amount;
-}
+
+
+////putinfo dung de luu du lieu cua sach thanh 1 dong.
+//void putinfo(Book& book,string& info) {
+//	stringstream ss;
+//	string year, amount;
+//	ss << book.year << book.amount;
+//	ss >> year >> amount;
+//	info += book.ISBN + " " + book.name + " " + book.author + " " + book.publisher + " " + year + " " + amount;
+//}
+
+//void setbookinfo(string& info, Book& book,int key) {
+//	string line;
+//	stringstream ss(info);
+//	for (int i = 0; i <= key; i++)
+//		getline(ss, line);
+//	stringstream ss2(line);
+//	ss2 >> book.ISBN >> book.name >> book.author >> book.publisher >> book.year >> book.amount;
+//}
 
 
 //Tim kiem theo tung loai:
@@ -155,7 +181,7 @@ void setbookinfo(string& info, Book book,int key) {
 //2-Tac gia
 //3-NXB
 //4-Nam XB
-void find_key(string str, int selection) {
+void find_key(string str, int selection){
 	Book book;
 	fstream outfile;
 	fstream outfile2;
@@ -165,15 +191,15 @@ void find_key(string str, int selection) {
 	int count = 0;
 
 	outfile.open("book.txt", ios::in);
-	if (outfile.is_open()) {
-		for (int i = 0; i < selection; i++) {
+	if (outfile.is_open()){
+		for (int i = 0; i < selection; i++){
 			getline(outfile, line);
 			curline++;
 		}
 		printtitle();
-		while (getline(outfile, line)) {
+		while (getline(outfile, line)){
 			curline++;
-			if (line.find(str, 0) != -1) {
+			if (line.find(str, 0) != -1){
 				outfile2.open("book.txt", ios::in);
 				getbook(book, outfile2, curline);
 				count++;
@@ -181,7 +207,7 @@ void find_key(string str, int selection) {
 				putinfo(book, temp);
 				outfile2.close();
 			}
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < 8; i++){
 				getline(outfile, line);
 				curline++;
 				if (outfile.eof())
@@ -189,7 +215,8 @@ void find_key(string str, int selection) {
 			}
 		}
 		printline();
-	} else
+	}
+	else
 		cout << "Khong co file";
 	if (count == 0)
 		cout << "Khong co ket qua phu hop voi tu khoa!";
@@ -198,9 +225,8 @@ void find_key(string str, int selection) {
 
 void search_key(string str) {
 	fstream outfile;
-	fstream outfile2;
-	string line;
-	string temp;
+	//fstream outfile2;
+	string foundbookISBN = "";
 	outfile.open("book.txt", ios::in);
 	Book book;
 	string info;
@@ -208,35 +234,33 @@ void search_key(string str) {
 	int curline = 0;
 	int count = 0;
 	if (outfile.is_open()) {
-		while (1) {
-			if (getbook(book, outfile, 0) == 1) {
-				putinfo(book,info);
-			}
-			else {
-				break;
-			}
-		}
-		outfile.close();
-		printtitle();
-		stringstream ss(info);
-		while (getline(ss, line)){
-			if (line.find(str, 0) != -1){
+		while (getbook(book,outfile,0)){
+			stringstream ss;
+			string year, price;
+			ss << book.year << book.price;
+			ss >> year >> price;
+			if ((book.ISBN.find(str, 0) != -1) || (book.name.find(str, 0) != -1) || (book.author.find(str, 0) != -1) || (book.category.find(str, 0) != -1) || (book.publisher.find(str, 0) != -1) || (year.find(str, 0) != -1) || (price.find(str, 0) != -1)){
 				count++;
-				setbookinfo(line, book, 0);
+				foundbookISBN += book.ISBN + "\n";
 				showbookinfo(book, count);
-				putinfo(book, temp);
 			}
 		}
 	} else
 		cout << "Khong co file";
 
 	if (count == 0)
-		cout << "Khong co ket qua phu hop voi tu khoa!";
+		cout << "Khong co ket qua phu hop voi tu khoa!\n";
 
-
+	printline();
 	outfile.close();
 }
-
+//book.ISBN
+//book.name 
+//book.category 
+//book.publisher 
+//book.year 
+//book.amount 
+//book.price
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //Cart
@@ -284,6 +308,7 @@ void delete_single_book_cart_function(account *acc, string ISBN) {
 	}
 	temp.close();
 	outfile.close();
+	delete[]tempbook;
 	remove(filename.c_str());
 	rename("temp.txt", filename.c_str());
 }
