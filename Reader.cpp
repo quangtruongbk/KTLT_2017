@@ -302,7 +302,7 @@ void delete_single_book_cart_function(account *acc, string ISBN) {
 		numberofdate=datatemp;
 
 		if (ISBN != tempbook->ISBN) {
-			temp << tempbook->ISBN << '\n' << tempbook->name << '\n' << tempbook->author << '\n' << tempbook->publisher << '\n' << tempbook->year <<'\n' << tempbook->price <<'\n'<<date <<'\n' << numberofdate << endl;
+			temp << tempbook->ISBN << '\n' << tempbook->name << '\n' << tempbook->author << '\n'<<tempbook->category<<'\n' << tempbook->publisher << '\n' << tempbook->year <<'\n' << tempbook->price <<'\n'<<date <<'\n' << numberofdate << endl;
 		}
 
 	}
@@ -581,5 +581,5 @@ void delete_already_seen_announcement(account *acc) {
 	//	if(choice=='4')  //TO DOOOOOOOOO
 
 	}
-
+	
 
