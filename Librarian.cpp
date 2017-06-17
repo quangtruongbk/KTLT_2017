@@ -158,7 +158,7 @@ void add_book_to_store(account *acc) {
 		getline(cin, newBook->ISBN);
 		fflush(stdin);
 		if (newBook->ISBN == "") cout << "Khong duoc de trong, yeu cau nhap lai" << endl;
-		if (check_ISBN_Book(newBook->ISBN) == 1){
+		if (check_ISBN_Book(newBook->ISBN) == 1) {
 			cout << "Ma ISBN da ton tai trong thu vien. " << endl;
 			cout << "Nhan 1 de nhap ma khac, nhan bat ky de tro ve" << endl;
 			fflush(stdin);
@@ -241,6 +241,99 @@ void add_book_to_store(account *acc) {
 	cout<<"Da them xong. ";
 }
 
-void add_book(account *acc){
+void add_book(account *acc) {
 	cout << "Chwa hien thuc" << endl;
+}
+
+void delete_book_in_store_function(account *acc, string ISBN) {
+	fstream outfile;
+	outfile.open("book.txt", ios::in);
+	fstream outfile2;
+	outfile2.open("temp.txt",ios::out);
+	string datatemp;
+	Book *temp=new Book();
+	while (getline(outfile,  temp->ISBN)) {
+		getline(outfile, temp->name);
+		getline(outfile,  temp->author);
+		getline(outfile, temp->category);
+		getline(outfile, temp->publisher);
+		getline(outfile, datatemp);
+		temp->year=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp->amount=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp->price=atoi(datatemp.c_str());
+		if(ISBN!=temp->ISBN) {
+			outfile2 << temp->ISBN << '\n' << temp->name << '\n' << temp->author << '\n'<<temp->category<<'\n' << temp->publisher << '\n' << temp->year <<'\n' << temp->amount <<'\n'<<temp->price<< endl;
+		}
+	}
+	outfile2.close();
+	outfile.close();
+	delete[]temp;
+	remove("book.txt");
+	rename("temp.txt", "book.txt");
+}
+
+void change_number_book_in_store_function(account *acc, string ISBN, int numberofchange){
+	fstream outfile;
+	outfile.open("book.txt", ios::in);
+	fstream outfile2;
+	outfile2.open("temp.txt",ios::out);
+	string datatemp;
+	Book *temp=new Book();
+	while (getline(outfile,  temp->ISBN)) {
+		getline(outfile, temp->name);
+		getline(outfile,  temp->author);
+		getline(outfile, temp->category);
+		getline(outfile, temp->publisher);
+		getline(outfile, datatemp);
+		temp->year=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp->amount=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp->price=atoi(datatemp.c_str());
+		if(ISBN!=temp->ISBN) {
+			outfile2 << temp->ISBN << '\n' << temp->name << '\n' << temp->author << '\n'<<temp->category<<'\n' << temp->publisher << '\n' << temp->year <<'\n' << temp->amount <<'\n'<<temp->price<< endl;
+		}
+		if(ISBN==temp->ISBN) {
+			outfile2 << temp->ISBN << '\n' << temp->name << '\n' << temp->author << '\n'<<temp->category<<'\n' << temp->publisher << '\n' << temp->year <<'\n' << temp->amount + numberofchange<<'\n'<<temp->price<< endl;
+		}
+	}
+	outfile2.close();
+	outfile.close();
+	delete[]temp;
+	remove("book.txt");
+	rename("temp.txt", "book.txt");
+}
+
+void change_price_book_in_store_function(account *acc, string ISBN, int newPrice){
+	fstream outfile;
+	outfile.open("book.txt", ios::in);
+	fstream outfile2;
+	outfile2.open("temp.txt",ios::out);
+	string datatemp;
+	Book *temp=new Book();
+	while (getline(outfile,  temp->ISBN)) {
+		getline(outfile, temp->name);
+		getline(outfile,  temp->author);
+		getline(outfile, temp->category);
+		getline(outfile, temp->publisher);
+		getline(outfile, datatemp);
+		temp->year=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp->amount=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp->price=atoi(datatemp.c_str());
+		if(ISBN!=temp->ISBN) {
+			outfile2 << temp->ISBN << '\n' << temp->name << '\n' << temp->author << '\n'<<temp->category<<'\n' << temp->publisher << '\n' << temp->year <<'\n' << temp->amount <<'\n'<<temp->price<< endl;
+		}
+		if(ISBN==temp->ISBN) {
+			outfile2 << temp->ISBN << '\n' << temp->name << '\n' << temp->author << '\n'<<temp->category<<'\n' << temp->publisher << '\n' << temp->year <<'\n' << temp->amount <<'\n'<<newPrice<< endl;
+		}
+	}
+	outfile2.close();
+	outfile.close();
+	delete[]temp;
+	remove("book.txt");
+	rename("temp.txt", "book.txt");
 }
