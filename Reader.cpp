@@ -108,7 +108,16 @@ string getallcategoryname(string categorylist){
 //xuat ra man hinh thong tin cua sach theo 1 hang.
 void showbookinfo(Book& book,int count) {
 	string category = getallcategoryname(book.category);
-	cout << "|" << setw(4) << count << " |" << right << setw(15) << book.ISBN << " | " << left << setw(44) << book.name << "| " << setw(21) << book.author << " | " << setw(21) << getnumofchar(category,21) << " | " << setw(19) << book.publisher << " | " << right << setw(4) << book.year << " |" << setw(7) << book.price << " |\n";
+	cout << "|" << setw(4) << count << " |" << right << setw(15) << book.ISBN << " | " << left << setw(44) << getnumofchar(book.name, 44) << "| " << setw(21) << getnumofchar(book.author, 21) << " | " << setw(21) << getnumofchar(category, 21) << " | " << setw(19) << getnumofchar(book.publisher,19) << " | " << right << setw(4) << book.year << " |" << setw(7) << book.price << " |\n";
+}
+
+void showfullinfo(Book& book){
+	cout << "ISBN: " << book.ISBN << endl;
+	cout << "Ten sach: " << book.name << endl;
+	cout << "The loai: " << getallcategoryname(book.category) << endl;
+	cout << "Nha xuat ban: " << book.publisher << endl;
+	cout << "Nam xuat ban: " << book.year << endl;
+	cout << "Gia(VND/ngay): " << book.price << endl;
 }
 
 
@@ -129,6 +138,23 @@ void show_all_book() {
 	}
 	printline();
 	outfile.close();
+}
+
+void show_book_via_category(){
+	unsigned int choice = 0;
+	do{
+		cout << "Moi chon the loai can tim";
+		cout << "1.Van hoc \n2.Thieu nhi \n3.Ky nang, day nghe, nghe nghiep \n4.Kien thuc doi song \n5.Kinh te, tai chinh \n6.Giao khoa, tham khao, giao trinh. \n7.Tu dien \n8.Truyen tranh \n9.Tam ly\n10.Kien thuc tong hop\n11.Ngoai van\n12.The loai khac" << endl;
+		fflush(stdin);
+		cin >> choice;
+	} while (cin.fail() || choice > 12 || choice == 0);
+	stringstream ss;
+	ss << choice;
+	string str;
+	ss >> str;
+	find_key(str, 3);
+
+
 }
 
 void get_book_via_ISBN(Book& book, string ISBN){
@@ -154,25 +180,15 @@ void get_book_via_ISBN(Book& book, string ISBN){
 
 }
 
+void choosebook(Book& book, string foundbookISBN,int selection){
+	stringstream ss(foundbookISBN);
+	string ISBN;
+	for (int i = 0; i < selection; i++){
+		getline(ss, ISBN);
+	}
+	get_book_via_ISBN(book, ISBN);
+}
 
-
-////putinfo dung de luu du lieu cua sach thanh 1 dong.
-//void putinfo(Book& book,string& info) {
-//	stringstream ss;
-//	string year, amount;
-//	ss << book.year << book.amount;
-//	ss >> year >> amount;
-//	info += book.ISBN + " " + book.name + " " + book.author + " " + book.publisher + " " + year + " " + amount;
-//}
-
-//void setbookinfo(string& info, Book& book,int key) {
-//	string line;
-//	stringstream ss(info);
-//	for (int i = 0; i <= key; i++)
-//		getline(ss, line);
-//	stringstream ss2(line);
-//	ss2 >> book.ISBN >> book.name >> book.author >> book.publisher >> book.year >> book.amount;
-//}
 
 
 //Tim kiem theo tung loai:
@@ -186,7 +202,7 @@ void find_key(string str, int selection){
 	fstream outfile;
 	fstream outfile2;
 	string line;
-	string temp;
+	string foundbookISBN = "";
 	int curline = 0;
 	int count = 0;
 
@@ -196,7 +212,7 @@ void find_key(string str, int selection){
 			getline(outfile, line);
 			curline++;
 		}
-		printtitle();
+		
 		while (getline(outfile, line)){
 			curline++;
 			if (line.find(str, 0) != -1){
@@ -204,10 +220,10 @@ void find_key(string str, int selection){
 				getbook(book, outfile2, curline);
 				count++;
 				showbookinfo(book, count);
-				putinfo(book, temp);
+				foundbookISBN += book.ISBN + "\n";
 				outfile2.close();
 			}
-			for (int i = 0; i < 8; i++){
+			for (int i = 0; i < 7; i++){
 				getline(outfile, line);
 				curline++;
 				if (outfile.eof())
@@ -218,8 +234,10 @@ void find_key(string str, int selection){
 	}
 	else
 		cout << "Khong co file";
-	if (count == 0)
+	if (count == 0){
 		cout << "Khong co ket qua phu hop voi tu khoa!";
+
+	}
 	outfile.close();
 }
 
@@ -254,13 +272,7 @@ void search_key(string str) {
 	printline();
 	outfile.close();
 }
-//book.ISBN
-//book.name 
-//book.category 
-//book.publisher 
-//book.year 
-//book.amount 
-//book.price
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //Cart
@@ -302,7 +314,7 @@ void delete_single_book_cart_function(account *acc, string ISBN) {
 		numberofdate=datatemp;
 
 		if (ISBN != tempbook->ISBN) {
-			temp << tempbook->ISBN << '\n' << tempbook->name << '\n' << tempbook->author << '\n'<<tempbook->category<<'\n' << tempbook->publisher << '\n' << tempbook->year <<'\n' << tempbook->price <<'\n'<<date <<'\n' << numberofdate << endl;
+			temp << tempbook->ISBN << '\n' << tempbook->name << '\n' << tempbook->author << '\n' << tempbook->publisher << '\n' << tempbook->year <<'\n' << tempbook->price <<'\n'<<date <<'\n' << numberofdate << endl;
 		}
 
 	}
@@ -581,5 +593,5 @@ void delete_already_seen_announcement(account *acc) {
 	//	if(choice=='4')  //TO DOOOOOOOOO
 
 	}
-	
+
 
