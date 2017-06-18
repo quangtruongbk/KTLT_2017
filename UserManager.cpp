@@ -156,3 +156,89 @@ void verify_user() { //TO DO
 }
 
 ////////////////////////
+
+
+void reset_password_function(string account_username) {
+	account *temp1=new account();
+	if(check_account_username( account_username, temp1)==0) cout<<"Khong tim thay "<<endl;
+	fstream outfile;
+	outfile.open("account.txt", ios::in);
+	fstream temp;
+	temp.open("temp.txt", ios::out);
+	string datatemp;
+	account *tempaccount=new account();
+	int flag=0;
+	string newPassword;
+	srand(time(0));
+	for(unsigned int i = 0; i < MAXRESETPASSWORD; ++i) {
+		newPassword += genRandom();
+	}
+	while (!outfile.eof()) {
+		getline(outfile, datatemp);
+		tempaccount->setUsername(datatemp);
+		getline(outfile, datatemp);
+		tempaccount->setPassword(datatemp);
+		getline(outfile, datatemp);
+		tempaccount->setID(datatemp);
+		getline(outfile, datatemp);
+		tempaccount->setRole(datatemp);
+		getline(outfile, datatemp);
+		tempaccount->setActive(datatemp);
+		if (account_username != tempaccount->getUsername()&&(tempaccount->getUsername() != "")) {
+			temp << tempaccount->getUsername() << '\n' << tempaccount->getPassword() << '\n' << tempaccount->getID() << '\n' << tempaccount->getRole() << '\n' << tempaccount->getActive()<< endl;
+		}
+		if(account_username==tempaccount->getUsername()) {
+			temp << tempaccount->getUsername() << '\n' << newPassword << '\n' << tempaccount->getID() << '\n' << tempaccount->getRole() << '\n' << tempaccount->getActive()<< endl;
+		}
+	}
+	temp.close();
+	outfile.close();
+	remove("account.txt");
+	rename("temp.txt", "account.txt");
+}
+// TO DOOOOOOOOOO
+void reset_password(account *usermanager) {
+	string username;
+	do {
+		cout<<"Nhap username cua account can reset password: "<<endl;
+		getline(cin,username);
+		if(username=="") cout<<"Khong duoc de trong, hay nhap lai: "<<endl;
+	} while(username=="");
+
+}
+
+////////////////////
+void change_active_account(account *acc, string username, string newActive) {
+	fstream outfile;
+	outfile.open("account.txt", ios::in);
+	fstream temp;
+	temp.open("temp.txt", ios::out);
+	string datatemp;
+	account *tempaccount=new account();
+	int flag=0;
+
+	while (!outfile.eof()) {
+		getline(outfile, datatemp);
+		tempaccount->setUsername(datatemp);
+		getline(outfile, datatemp);
+		tempaccount->setPassword(datatemp);
+		getline(outfile, datatemp);
+		tempaccount->setID(datatemp);
+		getline(outfile, datatemp);
+		tempaccount->setRole(datatemp);
+		getline(outfile, datatemp);
+		tempaccount->setActive(datatemp);
+		if (username != tempaccount->getUsername()&&(tempaccount->getUsername() != "")) {
+			temp << tempaccount->getUsername() << '\n' << tempaccount->getPassword() << '\n' << tempaccount->getID() << '\n' << tempaccount->getRole() << '\n' << tempaccount->getActive()<< endl;
+		}
+		if(username==tempaccount->getUsername()) {
+			temp << tempaccount->getUsername() << '\n' << tempaccount->getPassword() << '\n' << tempaccount->getID() << '\n' << tempaccount->getRole() << '\n' << newActive << endl;
+		}
+	}
+	temp.close();
+	outfile.close();
+	remove("account.txt");
+	rename("temp.txt", "account.txt");
+}
+
+/////////////
