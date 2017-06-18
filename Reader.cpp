@@ -102,6 +102,7 @@ string getallcategoryname(string categorylist){
 		ss >> categoryNo;
 		temp += getcategoryname(categoryNo) + " - ";
 	}
+	if (temp[temp.length() - 2] == '-') temp[temp.length() - 2] = ' ';
 	return temp;
 }
 
@@ -143,8 +144,9 @@ void show_all_book() {
 void show_book_via_category(){
 	unsigned int choice = 0;
 	do{
-		cout << "Moi chon the loai can tim";
+		cout << "Moi chon the loai can tim\n";
 		cout << "1.Van hoc \n2.Thieu nhi \n3.Ky nang, day nghe, nghe nghiep \n4.Kien thuc doi song \n5.Kinh te, tai chinh \n6.Giao khoa, tham khao, giao trinh. \n7.Tu dien \n8.Truyen tranh \n9.Tam ly\n10.Kien thuc tong hop\n11.Ngoai van\n12.The loai khac" << endl;
+		cout << "Moi chon: ";
 		fflush(stdin);
 		cin >> choice;
 	} while (cin.fail() || choice > 12 || choice == 0);
@@ -212,17 +214,35 @@ void find_key(string str, int selection){
 			getline(outfile, line);
 			curline++;
 		}
-		
+		printtitle();
 		while (getline(outfile, line)){
 			curline++;
-			if (line.find(str, 0) != -1){
-				outfile2.open("book.txt", ios::in);
-				getbook(book, outfile2, curline);
-				count++;
-				showbookinfo(book, count);
-				foundbookISBN += book.ISBN + "\n";
-				outfile2.close();
+			if (selection == 3){
+				stringstream ss(line);
+				string catenumber;
+				while (!ss.eof()){
+					ss >> catenumber;
+					if (str == catenumber){
+						outfile2.open("book.txt", ios::in);
+						getbook(book, outfile2, curline);
+						count++;
+						showbookinfo(book, count);
+						foundbookISBN += book.ISBN + "\n";
+						outfile2.close();
+					}
+				}
 			}
+			else{
+				if (line.find(str, 0) != -1){
+					outfile2.open("book.txt", ios::in);
+					getbook(book, outfile2, curline);
+					count++;
+					showbookinfo(book, count);
+					foundbookISBN += book.ISBN + "\n";
+					outfile2.close();
+				}
+			}
+
 			for (int i = 0; i < 7; i++){
 				getline(outfile, line);
 				curline++;
@@ -230,6 +250,8 @@ void find_key(string str, int selection){
 					break;
 			}
 		}
+		
+		
 		printline();
 	}
 	else
@@ -249,21 +271,24 @@ void search_key(string str) {
 	Book book;
 	string info;
 	printtitle();
+	string	get_category;
 	int curline = 0;
 	int count = 0;
 	if (outfile.is_open()) {
-		while (getbook(book,outfile,0)){
+		while (getbook(book, outfile, 0)){
 			stringstream ss;
 			string year, price;
 			ss << book.year << book.price;
 			ss >> year >> price;
-			if ((book.ISBN.find(str, 0) != -1) || (book.name.find(str, 0) != -1) || (book.author.find(str, 0) != -1) || (book.category.find(str, 0) != -1) || (book.publisher.find(str, 0) != -1) || (year.find(str, 0) != -1) || (price.find(str, 0) != -1)){
+			get_category = getallcategoryname(book.category);
+			if ((book.ISBN.find(str, 0) != -1) || (book.name.find(str, 0) != -1) || (book.author.find(str, 0) != -1) || (get_category.find(str, 0) != -1) || (book.publisher.find(str, 0) != -1) || (year.find(str, 0) != -1) || (price.find(str, 0) != -1)){
 				count++;
 				foundbookISBN += book.ISBN + "\n";
 				showbookinfo(book, count);
 			}
 		}
-	} else
+	}
+	else
 		cout << "Khong co file";
 
 	if (count == 0)
@@ -272,6 +297,7 @@ void search_key(string str) {
 	printline();
 	outfile.close();
 }
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
