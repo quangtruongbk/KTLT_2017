@@ -50,7 +50,7 @@ void printtitle() {
 
 
 //lay so ky tu nam trong khoang space tuy y, ket thuc tra ve 1 chuoi co ky tu "..." o cuoi neu chuoi co do dai lon hon khoang space.
-string getnumofchar(string str,int space){
+string getnumofchar(string str,int space) {
 	if (str.length() <= space)
 		return str;
 	else {
@@ -63,46 +63,46 @@ string getnumofchar(string str,int space){
 }
 
 //tra ve mot string la ten cua the loai tuy thuoc vao ma the loai.
-string getcategoryname(int categoryNo){
-	switch (categoryNo){
-	case 1:
-		return "Van hoc";
-	case 2:
-		return "Thieu nhi";
-	case 3:
-		return "Ky nang, day nghe, nghe nghiep";
-	case 4:
-		return "Kien thuc doi song";
-	case 5:
-		return "Kinh te, tai chinh";
-	case 6:
-		return "Giao khoa, tham khao, giao trinh";
-	case 7:
-		return "Tu dien";
-	case 8:
-		return "Truyen tranh";
-	case 9:
-		return "Tam ly";
-	case 10:
-		return "Kien thuc tong hop";
-	case 11:
-		return "Ngoai van";
-	case 12:
-		return "The loai khac";
+string getcategoryname(int categoryNo) {
+	switch (categoryNo) {
+		case 1:
+			return "Van hoc";
+		case 2:
+			return "Thieu nhi";
+		case 3:
+			return "Ky nang, day nghe, nghe nghiep";
+		case 4:
+			return "Kien thuc doi song";
+		case 5:
+			return "Kinh te, tai chinh";
+		case 6:
+			return "Giao khoa, tham khao, giao trinh";
+		case 7:
+			return "Tu dien";
+		case 8:
+			return "Truyen tranh";
+		case 9:
+			return "Tam ly";
+		case 10:
+			return "Kien thuc tong hop";
+		case 11:
+			return "Ngoai van";
+		case 12:
+			return "The loai khac";
 	}
 }
 
 
 //tra ve 1 chuoi danh sach ten cac the loai
-string getallcategoryname(string categorylist){
+string getallcategoryname(string categorylist) {
 	stringstream ss(categorylist);
 	int categoryNo;
 	string temp = "";
-	while (!ss.eof()){
+	while (!ss.eof()) {
 		ss >> categoryNo;
 		temp += getcategoryname(categoryNo) + " - ";
 	}
-	if (temp[temp.length() - 2] == '-') temp[temp.length() - 2] = ' ';
+	if(temp[temp.length()-2]=='-') temp[temp.length()-2]=' ';
 	return temp;
 }
 
@@ -112,7 +112,7 @@ void showbookinfo(Book& book,int count) {
 	cout << "|" << setw(4) << count << " |" << right << setw(15) << book.ISBN << " | " << left << setw(44) << getnumofchar(book.name, 44) << "| " << setw(21) << getnumofchar(book.author, 21) << " | " << setw(21) << getnumofchar(category, 21) << " | " << setw(19) << getnumofchar(book.publisher,19) << " | " << right << setw(4) << book.year << " |" << setw(7) << book.price << " |\n";
 }
 
-void showfullinfo(Book& book){
+void showfullinfo(Book& book) {
 	cout << "ISBN: " << book.ISBN << endl;
 	cout << "Ten sach: " << book.name << endl;
 	cout << "The loai: " << getallcategoryname(book.category) << endl;
@@ -141,12 +141,13 @@ void show_all_book() {
 	outfile.close();
 }
 
-void show_book_via_category(){
+void show_book_via_category() {
 	unsigned int choice = 0;
-	do{
-		cout << "Moi chon the loai can tim\n";
+	do {
+		fflush(stdin);
+		cin.clear();
+		cout << "Moi chon the loai can tim";
 		cout << "1.Van hoc \n2.Thieu nhi \n3.Ky nang, day nghe, nghe nghiep \n4.Kien thuc doi song \n5.Kinh te, tai chinh \n6.Giao khoa, tham khao, giao trinh. \n7.Tu dien \n8.Truyen tranh \n9.Tam ly\n10.Kien thuc tong hop\n11.Ngoai van\n12.The loai khac" << endl;
-		cout << "Moi chon: ";
 		fflush(stdin);
 		cin >> choice;
 	} while (cin.fail() || choice > 12 || choice == 0);
@@ -159,33 +160,32 @@ void show_book_via_category(){
 
 }
 
-void get_book_via_ISBN(Book& book, string ISBN){
+void get_book_via_ISBN(Book& book, string ISBN) {
 	fstream outfile;
 	fstream outfile2;
 	string line;
 	int curline = 0;
 	outfile.open("book.txt", ios::in);
 	if (outfile.is_open()) {
-		while (getline(outfile, line)){
-			if (line.find(ISBN, 0) != -1){
+		while (getline(outfile, line)) {
+			if (line.find(ISBN, 0) != -1) {
 				outfile2.open("book.txt", ios::in);
 				getbook(book, outfile2, curline);
 				outfile2.close();
 				break;
 			}
-			curline++;			
+			curline++;
 		}
-	}
-	else
+	} else
 		cout << "Khong co file";
 	outfile.close();
 
 }
 
-void choosebook(Book& book, string foundbookISBN,int selection){
+void choosebook(Book& book, string foundbookISBN,int selection) {
 	stringstream ss(foundbookISBN);
 	string ISBN;
-	for (int i = 0; i < selection; i++){
+	for (int i = 0; i < selection; i++) {
 		getline(ss, ISBN);
 	}
 	get_book_via_ISBN(book, ISBN);
@@ -199,7 +199,7 @@ void choosebook(Book& book, string foundbookISBN,int selection){
 //2-Tac gia
 //3-NXB
 //4-Nam XB
-void find_key(string str, int selection){
+void find_key(string str, int selection) {
 	Book book;
 	fstream outfile;
 	fstream outfile2;
@@ -209,54 +209,33 @@ void find_key(string str, int selection){
 	int count = 0;
 
 	outfile.open("book.txt", ios::in);
-	if (outfile.is_open()){
-		for (int i = 0; i < selection; i++){
+	if (outfile.is_open()) {
+		for (int i = 0; i < selection; i++) {
 			getline(outfile, line);
 			curline++;
 		}
-		printtitle();
-		while (getline(outfile, line)){
-			curline++;
-			if (selection == 3){
-				stringstream ss(line);
-				string catenumber;
-				while (!ss.eof()){
-					ss >> catenumber;
-					if (str == catenumber){
-						outfile2.open("book.txt", ios::in);
-						getbook(book, outfile2, curline);
-						count++;
-						showbookinfo(book, count);
-						foundbookISBN += book.ISBN + "\n";
-						outfile2.close();
-					}
-				}
-			}
-			else{
-				if (line.find(str, 0) != -1){
-					outfile2.open("book.txt", ios::in);
-					getbook(book, outfile2, curline);
-					count++;
-					showbookinfo(book, count);
-					foundbookISBN += book.ISBN + "\n";
-					outfile2.close();
-				}
-			}
 
-			for (int i = 0; i < 7; i++){
+		while (getline(outfile, line)) {
+			curline++;
+			if (line.find(str, 0) != -1) {
+				outfile2.open("book.txt", ios::in);
+				getbook(book, outfile2, curline);
+				count++;
+				showbookinfo(book, count);
+				foundbookISBN += book.ISBN + "\n";
+				outfile2.close();
+			}
+			for (int i = 0; i < 7; i++) {
 				getline(outfile, line);
 				curline++;
 				if (outfile.eof())
 					break;
 			}
 		}
-		
-		
 		printline();
-	}
-	else
+	} else
 		cout << "Khong co file";
-	if (count == 0){
+	if (count == 0) {
 		cout << "Khong co ket qua phu hop voi tu khoa!";
 
 	}
@@ -275,20 +254,19 @@ void search_key(string str) {
 	int curline = 0;
 	int count = 0;
 	if (outfile.is_open()) {
-		while (getbook(book, outfile, 0)){
+		while (getbook(book,outfile,0)) {
 			stringstream ss;
 			string year, price;
 			ss << book.year << book.price;
 			ss >> year >> price;
-			get_category = getallcategoryname(book.category);
-			if ((book.ISBN.find(str, 0) != -1) || (book.name.find(str, 0) != -1) || (book.author.find(str, 0) != -1) || (get_category.find(str, 0) != -1) || (book.publisher.find(str, 0) != -1) || (year.find(str, 0) != -1) || (price.find(str, 0) != -1)){
+			get_category=getallcategoryname(book.category);
+			if ((book.ISBN.find(str, 0) != -1) || (book.name.find(str, 0) != -1) || (book.author.find(str, 0) != -1) || (get_category.find(str, 0) != -1) || (book.publisher.find(str, 0) != -1) || (year.find(str, 0) != -1) || (price.find(str, 0) != -1)) {
 				count++;
 				foundbookISBN += book.ISBN + "\n";
 				showbookinfo(book, count);
 			}
 		}
-	}
-	else
+	} else
 		cout << "Khong co file";
 
 	if (count == 0)
@@ -297,7 +275,6 @@ void search_key(string str) {
 	printline();
 	outfile.close();
 }
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -314,6 +291,12 @@ void delete_single_book_cart_function(account *acc, string ISBN) {
 	fstream outfile;
 	string filename="cart_"+acc->getUsername()+".txt";
 	outfile.open(filename.c_str(), ios::in);
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out|ios::binary);
+		outfile.close();
+		outfile.open(filename.c_str(), ios::in);
+	}
 	fstream temp;
 	temp.open("temp.txt", ios::out);
 	string datatemp;
@@ -361,6 +344,12 @@ int get_price(account *acc) {
 	fstream outfile;
 	string filename="cart_"+acc->getUsername()+".txt";
 	outfile.open(filename.c_str(), ios::in);
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out|ios::binary);
+		outfile.close();
+		outfile.open(filename.c_str(), ios::in);
+	}
 	string datatemp;
 	Book *tempbook=new Book();
 	string date, numberofdate;
@@ -391,9 +380,154 @@ int get_price(account *acc) {
 	return totalprice;
 }
 
-void add_to_cart_function(account *acc,string ISBN) {
 
+int getbookinfomation(Book& book, string ISBN) {
+	fstream outfile;
+	outfile.open("book.txt", ios::in);
+	string datatemp;
+	Book temp;
+	while (getline(outfile,  temp.ISBN)) {
+		getline(outfile, temp.name);
+		getline(outfile,  temp.author);
+		getline(outfile, temp.category);
+		getline(outfile, temp.publisher);
+		getline(outfile, datatemp);
+		temp.year=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp.amount=atoi(datatemp.c_str());
+		getline(outfile,  datatemp);
+		temp.price=atoi(datatemp.c_str());
+		if(ISBN==temp.ISBN) {
+			book.ISBN=temp.ISBN;
+			book.name=temp.name;
+			book.author=temp.author;
+			book.category=temp.category;
+			book.publisher=temp.publisher;
+			book.year=temp.year;
+			book.amount=temp.amount;
+			book.price=temp.price;
+			outfile.close();
+			return 1;
+		}
+		
+	}
+	outfile.close();
+	return 0;
 }
+
+// Demand book thi ko co date duoc muon, date la tinh tu luc no bat dau duoc cho muon nen file deman_borrow_txt ko co ngay bat dau muon. ngay bat dau muon chi co trong
+// cart_txt ma thoi.
+int count_number_of_book_demand(account *acc){
+	fstream outfile;
+	string datatemp;
+	int count=0;
+	string filename="demand_book_"+acc->getUsername()+".txt";
+	outfile.open(filename.c_str(), ios::in);
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out|ios::binary);
+		outfile.close();
+		outfile.open(filename.c_str(),ios::in );
+	}
+	while(getline(outfile,datatemp)){
+		count++;
+	}
+	outfile.close();
+	return count;
+}
+
+void add_to_demand_borrow_function(account *acc,string ISBN) {
+	fstream outfile;
+	string filename="demand_book_"+acc->getUsername()+".txt";
+	outfile.open(filename.c_str(), ios_base::app);
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out|ios::binary);
+		outfile.close();
+		outfile.open(filename.c_str(), ios_base::app);
+	}
+	outfile<<ISBN<<'\n';
+	outfile.close();
+	
+}
+
+void send_demand_borrow_to_librarian_function(account *acc_reader) {
+	fstream outfile;
+	string filename="demand_book_"+acc_reader->getUsername()+".txt";
+	outfile.open(filename.c_str(),ios::in);
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out);
+		outfile.close();
+		outfile.open(filename.c_str(), ios::in);
+	}
+	fstream outfile2;
+	outfile2.open("book_people_want_to_borrow.txt", ios_base::app);
+	string datatemp;
+	Book book;
+	while(getline(outfile,datatemp)) {
+		getbookinfomation(book,datatemp);
+		outfile2<<acc_reader->getID()<<'\n';
+		outfile2<<acc_reader->getUsername()<<'\n';
+		outfile2<<book.ISBN<<'\n';
+		outfile2<<book.name<<'\n';
+	}
+	outfile.close();
+	outfile2.close();
+}
+
+void delete_single_book_in_demand_function(account *acc, string ISBN) {
+	fstream outfile;
+	string filename="demand_book_"+acc->getUsername()+".txt";
+	outfile.open(filename.c_str(), ios::in);
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out);
+		outfile.close();
+		outfile.open(filename.c_str(), ios::in);
+	}
+	fstream temp;
+	temp.open("temp.txt", ios::out);
+	string datatemp;
+	int flag=0;
+	while (getline(outfile, datatemp)) {
+
+		if (ISBN != datatemp&&datatemp!="") {
+			temp<<datatemp<<endl;
+		}
+
+	}
+	temp.close();
+	outfile.close();
+	remove(filename.c_str());
+	rename("temp.txt", filename.c_str());
+}
+
+void show_demand_function(account *acc){
+	system("cls");
+	fstream outfile;
+	string filename="demand_book_"+acc->getUsername()+".txt";
+	outfile.open(filename.c_str(), ios::in);
+	printtitle();
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out|ios::binary);
+		outfile.close();
+		outfile.open(filename.c_str(), ios::in);
+	}
+	string datatemp;
+	Book book;
+	int count=0;
+	while(getline(outfile,datatemp)){
+		count++;
+		getbookinfomation(book, datatemp);
+		showbookinfo(book,count);	
+	}
+	printline();
+	outfile.close();
+}
+
+
 void add_to_cart();
 //{
 //	check role role ko thi return to reader();
@@ -415,6 +549,12 @@ void show_all_announcement(account *acc) {
 	fstream outfile;
 	string filename="announcement_"+acc->getUsername()+".txt";
 	outfile.open(filename.c_str(), ios::in);
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out|ios::binary);
+		outfile.close();
+		outfile.open(filename.c_str(),ios::in);
+	}
 	string datatemp;
 //	cout << " __________________________________________________________________________________________"<<endl;
 	cout << "| ID thong bao |             Thong bao                 |        Ngay        |   Da doc ?   |\n";
@@ -485,6 +625,12 @@ void delete_already_seen_announcement(account *acc) {
 		fstream outfile;
 		string filename="announcement_"+acc->getUsername()+".txt";
 		outfile.open(filename.c_str(), ios::in);
+		if (!outfile) {
+			outfile.clear();
+			outfile.open(filename.c_str(),ios::out|ios::binary);
+			outfile.close();
+			outfile.open(filename.c_str(),ios::in);
+		}
 		fstream temp1;
 		temp1.open("temp.txt", ios::out);
 		string datatemp;
@@ -517,107 +663,112 @@ void delete_already_seen_announcement(account *acc) {
 	if(choice=='2') read_announcement(acc);
 }
 
-	void set_announcement_already_seen(string ID, account *acc) {
-		fstream outfile;
-		string filename="announcement_"+acc->getUsername()+".txt";
-		outfile.open(filename.c_str(), ios::in);
-		fstream temp1;
-		temp1.open("temp.txt", ios::out);
-		string datatemp;
-		announcement *temp=new announcement();
-		while (getline(outfile,datatemp)) {
-			temp->setID(datatemp);
-			getline(outfile, datatemp);
-			temp->setAnnounce(datatemp);
-			getline(outfile, datatemp);
-			temp->setDate(datatemp);
-			getline(outfile, datatemp);
-			temp->setSeen(datatemp);
-			if (ID != temp->getID()) {
-				temp1 << temp->getID() << '\n' << temp->getAnnounce() << '\n' << temp->getDate() << '\n' << temp->getSeen() <<endl;
-			}
-			if (ID == temp->getID()) {
-				temp->setSeen("1");
-				temp1 << temp->getID() << '\n' << temp->getAnnounce() << '\n' << temp->getDate() << '\n' <<  "1" <<endl;
-			}
+void set_announcement_already_seen(string ID, account *acc) {
+	fstream outfile;
+	string filename="announcement_"+acc->getUsername()+".txt";
+	outfile.open(filename.c_str(), ios::in);
+	fstream temp1;
+	temp1.open("temp.txt", ios::out);
+	string datatemp;
+	announcement *temp=new announcement();
+	while (getline(outfile,datatemp)) {
+		temp->setID(datatemp);
+		getline(outfile, datatemp);
+		temp->setAnnounce(datatemp);
+		getline(outfile, datatemp);
+		temp->setDate(datatemp);
+		getline(outfile, datatemp);
+		temp->setSeen(datatemp);
+		if (ID != temp->getID()) {
+			temp1 << temp->getID() << '\n' << temp->getAnnounce() << '\n' << temp->getDate() << '\n' << temp->getSeen() <<endl;
 		}
-		outfile.close();
-		temp1.close();
-		remove(filename.c_str());
-		rename("temp.txt",filename.c_str());
+		if (ID == temp->getID()) {
+			temp->setSeen("1");
+			temp1 << temp->getID() << '\n' << temp->getAnnounce() << '\n' << temp->getDate() << '\n' <<  "1" <<endl;
+		}
 	}
-	void read_announcement_with_ID_function(account *acc, string ID) {
-		system("cls");
-		fstream outfile;
-		string filename="announcement_"+acc->getUsername()+".txt";
-		outfile.open(filename.c_str(), ios::in);
-		string datatemp;
-		announcement *temp=new announcement();
-		while (getline(outfile, datatemp)) {
-			temp->setID(datatemp);
-			getline(outfile, datatemp);
-			temp->setAnnounce(datatemp);
-			getline(outfile, datatemp);
-			temp->setDate(datatemp);
-			getline(outfile, datatemp);
-			temp->setSeen(datatemp);
-			if(ID==temp->getID()) {
-				cout<<"Ngay gui: "<<temp->getDate()<<endl; //Check lai ngay gui
-				cout<<"Noi dung thong bao:"<<endl;
-				cout<<temp->getAnnounce();
-			}
-		}
+	outfile.close();
+	temp1.close();
+	remove(filename.c_str());
+	rename("temp.txt",filename.c_str());
+}
+void read_announcement_with_ID_function(account *acc, string ID) {
+	system("cls");
+	fstream outfile;
+	string filename="announcement_"+acc->getUsername()+".txt";
+	outfile.open(filename.c_str(), ios::in);
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out|ios::binary);
 		outfile.close();
-		set_announcement_already_seen(ID, acc);
-		cout<<endl<<"Nhap bat ky de tro ve:"<<endl;
-		fflush(stdin);
+		outfile.open(filename.c_str(), ios::in);
+	}
+	string datatemp;
+	announcement *temp=new announcement();
+	while (getline(outfile, datatemp)) {
+		temp->setID(datatemp);
+		getline(outfile, datatemp);
+		temp->setAnnounce(datatemp);
+		getline(outfile, datatemp);
+		temp->setDate(datatemp);
+		getline(outfile, datatemp);
+		temp->setSeen(datatemp);
+		if(ID==temp->getID()) {
+			cout<<"Ngay gui: "<<temp->getDate()<<endl; //Check lai ngay gui
+			cout<<"Noi dung thong bao:"<<endl;
+			cout<<temp->getAnnounce();
+		}
+	}
+	outfile.close();
+	set_announcement_already_seen(ID, acc);
+	cout<<endl<<"Nhap bat ky de tro ve:"<<endl;
+	fflush(stdin);
+	char choice;
+	choice=_getch();
+	fflush(stdin);
+	cout<<"done "<<endl;
+	read_announcement(acc);
+}
+
+void read_announcement_with_ID(account *acc) {
+	string ID;
+	cout<<"Nhap ma thong bao ban muon doc: "<<endl;
+	fflush(stdin);
+	getline(cin, ID);
+	if(check_ID_Announcement_in_file(acc,ID)==1) read_announcement_with_ID_function(acc,ID);
+	else {
+		cout<<"Ma thong bao khong dung."<<endl;
+		cout<<"Nhan 1 de nhap ma khac."<<endl;
+		cout<<"Nhan bat ky (khac so 1) de tro ve."<<endl;
 		char choice;
+		fflush(stdin);
 		choice=_getch();
 		fflush(stdin);
-		read_announcement(acc);
-	}
-
-	void read_announcement_with_ID(account *acc) {
-		string ID;
-		cout<<"Nhap ma thong bao ban muon doc: "<<endl;
-		fflush(stdin);
-		getline(cin, ID);
-		if(check_ID_Announcement_in_file(acc,ID)==1) read_announcement_with_ID_function(acc,ID);
-		else {
-			cout<<"Ma thong bao khong dung."<<endl;
-			cout<<"Nhan 1 de nhap ma khac."<<endl;
-			cout<<"Nhan bat ky (khac so 1) de tro ve."<<endl;
-			char choice;
-			fflush(stdin);
-			choice=_getch();
-			fflush(stdin);
-			if(choice=='1') read_announcement_with_ID(acc);
-			else read_announcement(acc);
-		}
-	}
-
-	void read_announcement(account *acc) {
-		system("cls");
-		cout<<"BANG THONG BAO CUA USER "<<acc->getUsername()<<endl<<endl;
-		show_all_announcement(acc);
-		cout<<endl<<endl;
-		cout<<"1. Doc thong bao theo ma so."<<endl;
-		cout<<"2. Xoa toan bo thong bao."<<endl;
-		cout<<"3. Xoa thong bao da doc."<<endl;
-		cout<<"4. Tro ve."<<endl;
-		fflush(stdin);
-		char choice;
-		do {
-			fflush(stdin);
-			choice=_getch();
-			fflush(stdin);
-			if(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4') cout<<"Lua chon khong dung. Ban hay nhap lai:"<<endl;
-		} while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4');
 		if(choice=='1') read_announcement_with_ID(acc);
-		if(choice=='2') delete_entire_announcement(acc);
-		if(choice=='3') delete_already_seen_announcement(acc);
+		else read_announcement(acc);
+	}
+}
+
+void read_announcement(account *acc) {
+	system("cls");
+	cout<<"BANG THONG BAO CUA USER "<<acc->getUsername()<<endl<<endl;
+	show_all_announcement(acc);
+	cout<<endl<<endl;
+	cout<<"1. Doc thong bao theo ma so."<<endl;
+	cout<<"2. Xoa toan bo thong bao."<<endl;
+	cout<<"3. Xoa thong bao da doc."<<endl;
+	cout<<"4. Tro ve."<<endl;
+	fflush(stdin);
+	char choice;
+	do {
+		fflush(stdin);
+		choice=_getch();
+		fflush(stdin);
+		if(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4') cout<<"Lua chon khong dung. Ban hay nhap lai:"<<endl;
+	} while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4');
+	if(choice=='1') read_announcement_with_ID(acc);
+	if(choice=='2') delete_entire_announcement(acc);
+	if(choice=='3') delete_already_seen_announcement(acc);
 	//	if(choice=='4')  //TO DOOOOOOOOO
 
-	}
-
-
+}
