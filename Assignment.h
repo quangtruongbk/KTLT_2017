@@ -14,6 +14,7 @@
 #define MAXIDANNOUCEMENT 5
 #define MAXIDBOOK 5
 #define MAXCATEGORY 12
+#define MAXRESETPASSWORD 8
 #pragma warning(disable:4996)
 using namespace std;
 
@@ -183,7 +184,8 @@ void change_role();//TO DO
 void delete_user_in_manage_user(string ID);
 void verify_user_function(string ID);
 void verify_user(); //To do
-
+void reset_password_function(string account_username);
+void change_active_account(account *acc, string username, string newActive);
 //Function for Reader
 void search_book_all();//To do
 void search_book_by_name();//TO do
@@ -201,12 +203,18 @@ void show_announcement(account *acc);
 void set_announcement_already_seen(string ISBN, account *acc);
 void show_all_announcement(account *acc);
 void set_announcement_already_seen(string ISBN);
+	void read_announcement_with_ID_function(account *acc, string ID);
 void read_announcement_with_ID(account *acc);
 void read_announcement(account *acc);
 void delete_already_seen_announcement(account *acc);
 void delete_entire_announcement(account *acc);
-
-
+void show_book_via_category();
+void add_to_demand_borrow_function(account *acc,string ISBN);
+void send_demand_borrow_to_librarian_function(account *acc_reader);
+int getbookinfomation(Book& book, string ISBN);
+int count_number_of_book_demand(account *acc);
+void delete_single_book_in_demand_function(account *acc, string ISBN);
+void show_demand_function(account *acc);
 //Function for Librarian
 void add_new_book(); //2
 void delete_book(); //3
