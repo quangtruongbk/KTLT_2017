@@ -101,6 +101,16 @@ string randomstring() {
 	return Str;
 }
 
+string getCurrentDate(){
+	time_t t = time(0);   // get time now
+    struct tm * now = localtime( & t );
+    int year=now->tm_year + 1900;
+    int month=now->tm_mon + 1;
+    int day=now->tm_mday;
+    string date=from_int_to_string(day)+" "+from_int_to_string(month)+" "+from_int_to_string(year);
+    return date;
+}
+
 string getDay(string send_day) {
 	string day, month,  year;
 	stringstream ss;
@@ -161,3 +171,29 @@ string print_category(string category){
 	return N;
 }
 
+int distance_date_function(int d, int m, int y) { 
+    if (m < 3)
+        y--, m += 12;
+    return 365*y + y/4 - y/100 + y/400 + (153*m - 457)/5 + d - 306;
+}
+
+int distance_date(string dateborrow){
+	stringstream ss;
+	ss<<dateborrow;
+	string day1, month1,year1;
+	ss>>day1>>month1>>year1;
+	int day_int1,month_int1,year_int1;
+	day_int1=atoi(day1.c_str());
+	month_int1=atoi(month1.c_str());
+	year_int1=atoi(year1.c_str());
+	string datetoday=getCurrentDate();
+	stringstream ss2;
+	ss2<<datetoday;
+	string day2, month2,year2;
+	ss2>>day2>>month2>>year2;
+	int day_int2,month_int2,year_int2;
+	day_int2=atoi(day2.c_str());
+	month_int2=atoi(month2.c_str());
+	year_int2=atoi(year2.c_str());
+	return distance_date_function(day_int2,month_int2,year_int2)- distance_date_function(day_int1,month_int1,year_int1);
+}

@@ -2,7 +2,12 @@
  ////////////////////////////////////////////////////////////TODO
 void firstmenu(){
 	system("cls");
+	char choice;
 	cout<<"Check thu 1 2 3 chu chua co lam function nay"<<endl;
+	cout<<"Nhap 1 de vao menu, nhap 2 vao test: "<<endl;
+	cin>>choice;
+	if(choice==1)cout<<"1. Menu"<<endl;
+	if(choice==2)cout<<"2. Menu test"<<endl;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -90,7 +95,7 @@ void regist_account() {
 			fflush(stdin);
 			if(key=='1') {
 				regist_account();
-			} else firstmenu();
+			} else return firstmenu();
 		}
 	}
 	cout << "Nhap username (Khong ky tu dac biet, chi cho phep chu, so va 2 ky hieu _ -, do dai tu 8 toi 12): " << endl;
@@ -121,6 +126,7 @@ void regist_account() {
 	cout<<"Bam phim bat ky de tro ve trang chu."<<endl;
 	char choice;
 	choice=_getch();
+	return firstmenu();
 }
 
 //////////////////////////////////////////////////////////
@@ -157,7 +163,7 @@ void regist_user() {
 		if(choiceCMND=='1'){
 			cout<<"Moi nhap lai CMND: "<<endl;
 		}
-		if(choiceCMND=='2') firstmenu(); /////////////////////////// TO DO
+		if(choiceCMND=='2') return firstmenu(); /////////////////////////// TO DO
 	} while ((check_number(CMND)==0||CMND.length()<9)||(choiceCMND=='1'));
 	cout<<"Nhap Password xai cho thong tin ca nhan: "<<endl;
 	cout<<"Goi y: Password cho thong tin nen khac voi password account"<<endl;
@@ -186,13 +192,30 @@ void regist_user() {
 	fflush(stdin);
 	birthday=input_date();
 	fflush(stdin);
-	cout<<"Nhap Email: "<<endl;
-	do{
+	cout << "Nhap email (khong khoang trang) (lon hon 9 chu so theo luat Viet Nam): " << endl;
+	char choiceemail='0';
+	do {
+		choiceemail='0';		
 		cin.clear();
 		fflush(stdin);
-		getline(cin, email);
-	if(email=="") cout<<"Khong duoc de trong email"<<endl;
-	}while(email=="");
+		getline(cin,email);
+		if (email=="") cout << "Khong duoc bo trong email. Nhap lai email cho hop le: " << endl;
+		if(check_email_in_file(email)==1||check_email_in_waiting(email)==1) {
+			cout<<"Email cua ban da duoc dung de dang ky. Xin vui long kiem tra lai."<<endl;
+			cout<<"Nhan 1 neu ban muon nhap mot so Email khac."<<endl;
+			cout<<"Nhan 2 de tro ve trang chu."<<endl;
+			do{
+				fflush(stdin);
+				choiceemail=_getch();
+				fflush(stdin);
+				if(choiceemail!='1'&&choiceemail!='2') cout<<"Hay bam lua chon dung"<<endl;
+				}while(choiceemail!='1'&&choiceemail!='2');
+		}
+		if(choiceemail=='1'){
+			cout<<"Moi nhap lai email: "<<endl;
+		}
+		if(choiceemail=='2') return firstmenu(); /////////////////////////// TO DO
+	} while (email==""||(choiceemail=='1'));
 	cout << "Nhap nghe nghiep: " << endl;
 	do{
 		cin.clear();
@@ -210,6 +233,6 @@ void regist_user() {
 	char choice;
 	choice=_getch();
 	fflush(stdin);
-	firstmenu();
+	 return firstmenu();
 }
 

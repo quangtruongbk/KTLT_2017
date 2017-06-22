@@ -436,6 +436,13 @@ int count_number_of_book_demand(account *acc){
 	return count;
 }
 
+void delete_entire_demand(account *acc) {
+	string filename="demand_book_"+acc->getUsername()+".txt";
+	ofstream outfile;
+	outfile.open(filename.c_str(), ofstream::out | ofstream::trunc);
+	outfile.close();
+}
+
 void add_to_demand_borrow_function(account *acc,string ISBN) {
 	fstream outfile;
 	string filename="demand_book_"+acc->getUsername()+".txt";
@@ -472,11 +479,14 @@ void send_demand_borrow_to_librarian_function(account *acc_reader) {
 		outfile2<<book.ISBN<<'\n';
 		outfile2<<book.name<<'\n';
 	}
+	delete_entire_demand(acc_reader); 
 	outfile.close();
 	outfile2.close();
+
 }
 
-void delete_single_book_in_demand_function(account *acc, string ISBN) {
+
+void delete_single_book_in_demand_function(account *acc, int count) {
 	fstream outfile;
 	string filename="demand_book_"+acc->getUsername()+".txt";
 	outfile.open(filename.c_str(), ios::in);
@@ -489,13 +499,55 @@ void delete_single_book_in_demand_function(account *acc, string ISBN) {
 	fstream temp;
 	temp.open("temp.txt", ios::out);
 	string datatemp;
-	int flag=0;
+	int counttemp=0;
 	while (getline(outfile, datatemp)) {
-
-		if (ISBN != datatemp&&datatemp!="") {
+		counttemp++;
+		if (counttemp!=count) {
 			temp<<datatemp<<endl;
 		}
 
+	}
+	temp.close();
+	outfile.close();
+	remove(filename.c_str());
+	rename("temp.txt", filename.c_str());
+}
+
+void delete_single_book_in_waiting_of_each_person_function(account *acc, string ISBN) {
+	fstream outfile;
+	string filename="book_waiting_"+acc->getUsername()+".txt";
+	outfile.open(filename.c_str(), ios::in);
+	if (!outfile) {
+		outfile.clear();
+		outfile.open(filename.c_str(),ios::out);
+		outfile.close();
+		outfile.open(filename.c_str(), ios::in);
+	}
+	fstream temp;
+	temp.open("temp.txt", ios::out);
+	string datatemp;
+	int counttemp=0;
+	Book booktemp;
+	while (getline(outfile, datatemp)) {
+		booktemp.ISBN=datatemp;
+		getline(outfile,datatemp);
+		booktemp.name=datatemp;
+		getline(outfile,datatemp);
+		booktemp.author=datatemp;
+		getline(outfile,datatemp);
+		booktemp.category=datatemp;
+		getline(outfile,datatemp);
+		booktemp.publisher=datatemp;
+		getline(outfile,datatemp);
+		booktemp.year=atoi(datatemp.c_str());
+		if(ISBN!=booktemp.ISBN){
+		temp<<booktemp.ISBN<<endl;
+		temp<<booktemp.name<<endl;
+		temp<<booktemp.author<<endl;
+		temp<<booktemp.category<<endl;
+		temp<<booktemp.publisher<<endl;
+		temp<<booktemp.year<<endl;
+		}
 	}
 	temp.close();
 	outfile.close();
@@ -772,3 +824,23 @@ void read_announcement(account *acc) {
 	//	if(choice=='4')  //TO DOOOOOOOOO
 
 }
+
+void send_announcement_reader(account *acc) {
+	system("cls");
+	cout<<"CHUC NANG GUI THONG BAO CUA ACCOUNT: "<<acc->getUsername()<<endl;
+	cout<<"1. Gui thong bao cho quan ly nguoi dung."<<endl;
+	cout<<"2. Gui thong bao cho thu thu."<<endl;
+	cout<<"3. Tro ve."<<endl;
+	fflush(stdin);
+	char choice;
+	do {
+		fflush(stdin);
+		choice=_getch();
+		fflush(stdin);
+		if(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4') cout<<"Lua chon khong dung. Ban hay nhap lai:"<<endl;
+	} while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4');
+	if(choice=='1') send_announcement_to_all(acc,1,"1");
+	if(choice=='2') send_announcement_to_all(acc,2,"1");
+//	if(choice=='3') //To Doooooooooooooooo
+}
+

@@ -147,6 +147,7 @@ void user::add_user_to_list() {
 	outfile.close();
 }
 
+user::~user(){}
 /////////////////////////////////////////////////////////////
 //ACCOUNT
 account::account() {};
@@ -207,13 +208,17 @@ void account::add_account_to_list() {
 	outfile << active <<"\n";
 	outfile.close();
 }
+
+account::~account(){
+	}
 ////////////////////////////////////////////////////////////////
 //Annoucement
 announcement::announcement() {};
-announcement::announcement(string newAnnouce, string newDate, string newSeen, string role_send) {
+announcement::announcement(string newAnnouce, string newDate, string newSeen, string role_send, account *acc) {
 	this->ID=create_ID();
-	if(role_send=="3") newAnnouce="[Thu thu]"+newAnnouce;
-	if(role_send=="2") newAnnouce="[He thong]"+newAnnouce;
+	if(role_send=="3") newAnnouce="[THU THU: "+acc->getUsername()+"]"+newAnnouce;
+	if(role_send=="2") newAnnouce="[HE THONG: "+acc->getUsername()+"]"+newAnnouce;
+	if(role_send=="1") newAnnouce="[NGUOI DUNG: "+acc->getUsername()+ "]"+newAnnouce;
 	this->announce=newAnnouce;
 	this->date=newDate;
 	this->seen=newSeen;
@@ -257,6 +262,12 @@ void announcement::send_to_user(string username) {
 	string datatemp;
 	outfile.open(filetemp.c_str(), ios_base::app);
 	outfilereal.open(filename.c_str(), ios_base::app| ios::in);
+	if (!outfilereal) {
+		outfilereal.clear();
+		outfilereal.open(filename.c_str(),ios::out|ios::binary);
+		outfilereal.close();
+		outfilereal.open(filename.c_str(), ios_base::app | ios::in);
+	}
 	int count=1;
 	int STT;
 	while(getline(outfilereal,datatemp)) {
@@ -280,3 +291,4 @@ string announcement::create_ID() {
 	} while(check_ID_Announcement_in_archive(newID)==1);
 	return newID;
 }
+
