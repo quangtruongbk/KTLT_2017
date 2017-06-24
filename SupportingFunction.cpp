@@ -197,3 +197,5 @@ int distance_date(string dateborrow){
 	year_int2=atoi(year2.c_str());
 	return distance_date_function(day_int2,month_int2,year_int2)- distance_date_function(day_int1,month_int1,year_int1);
 }
+
+
