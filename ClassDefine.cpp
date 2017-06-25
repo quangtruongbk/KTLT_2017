@@ -218,7 +218,8 @@ announcement::announcement(string newAnnouce, string newDate, string newSeen, st
 	this->ID=create_ID();
 	if(role_send=="3") newAnnouce="[THU THU: "+acc->getUsername()+"]"+newAnnouce;
 	if(role_send=="2") newAnnouce="[HE THONG: "+acc->getUsername()+"]"+newAnnouce;
-	if(role_send=="1") newAnnouce="[NGUOI DUNG: "+acc->getUsername()+ "]"+newAnnouce;
+	if (role_send == "1") newAnnouce = "[NGUOI DUNG: " + acc->getUsername() + "]" + newAnnouce;
+
 	this->announce=newAnnouce;
 	this->date=newDate;
 	this->seen=newSeen;

@@ -27,29 +27,167 @@ void firstmenu() {
 	if(choice=='6') return;
 }
 
+void menu_reader(account *acc) {
+	system("cls");
+	cout << "MENU CHUC NANG CUA DOC GIA:" <<acc->getUsername()<<endl;
+	cout << "1. Tim sach"<<endl;
+	cout << "2. Xem danh sach muon muon sach va gui yeu cau muon sach"<<endl;;
+	cout << "3. Danh sach cac sach dang muon"<<endl;
+	cout << "4. Danh sach cac sach dang cho"<<endl;
+	cout << "5. Xem thong tin"<<endl;
+	cout << "6. Gui thong bao"<<endl;
+	cout << "7. Tro ve"<<endl;
+	cout << "Nhap lua chon: ";
+	char choice;
+	do {
+		fflush(stdin);
+		choice=_getch();
+		fflush(stdin);
+		if(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7') cout<<"Hay bam lua chon dung"<<endl;
+	} while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7');
+	if(choice=='1') return search_book(acc);
+	if(choice=='2') return demand_book(acc);
+	if(choice=='3') return already_have_book(acc);
+	if(choice=='4') return waiting_book(acc);
+	if(choice=='5') return read_infomation(acc);
+	if(choice=='6') return send_announcement_reader(acc);
+	if(choice=='7') return mainmenu(acc);
+}
+
+void menu_lib(account *acc) {
+	system("cls");
+	cout << "MENU CHUC NANG CUA THU THU:" << endl;
+	cout << "1. Tim sach" << endl;
+	cout << "2. Quan ly kho sach" << endl;
+	cout << "3. Ghi nhan tra sach, xu ly that lac sach" << endl;
+	cout << "4. Ghi nhan cho muon sach" << endl;
+	cout << "5. Xu ly hang doi" << endl;
+	cout << "6. Gui thong bao" << endl;
+	cout << "7. Doc thong tin" << endl;
+	cout << "8. Tro ve"<<endl;
+	cout << "Nhap lua chon: "<<endl;
+	char choice;
+	do {
+		fflush(stdin);
+		choice=_getch();
+		fflush(stdin);
+		if(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7'&&choice!='8') cout<<"Hay bam lua chon dung"<<endl;
+	} while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7'&&choice!='8');
+	if(choice=='1') return search_book_lib(acc);
+	if(choice=='2') return manage_book_store(acc);
+	if(choice=='3') return pay_book(acc);
+	if(choice=='4') return approve_book(acc);
+	if(choice=='5') return approve_waiting(acc);
+	if(choice=='6') return send_announcement(acc);
+	if(choice=='7') return read_infomation(acc);
+	if(choice=='8') return mainmenu(acc);
+}
+
+void menu_mgr(account *acc) {
+	system("cls");
+	cout << "MENU CHUC NANG CUA QUAN LY NGUOI DUNG:"<<endl;
+	cout << "1. Tim kiem user"<<endl;
+	cout<<"2. Tim kiem account"<<endl;
+	cout << "3. Xac nhan thong tin nguoi dung"<<endl;
+	cout << "4. Cap quyen"<<endl;
+	cout << "5. Mo/khoa account"<<endl;
+	cout << "6. Reset mat khau account"<<endl;
+	cout<<"7. Doc thong tin"<<endl;
+	cout << "8. Gui thong bao"<<endl;
+	cout<<"9. Tro ve"<<endl;
+	cout << "Nhap lua chon: "<<endl;
+	char choice;
+	do {
+		fflush(stdin);
+		choice=_getch();
+		fflush(stdin);
+		if(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7'&&choice!='8'&&choice!='9') cout<<"Hay bam lua chon dung"<<endl;
+	} while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7'&&choice!='8'&&choice!='9');
+	if(choice=='1') return  search_user_all(acc);
+	if(choice=='2') return search_account_all(acc);
+	if(choice=='3') return verify_user_full(acc);
+	if(choice=='4') return thay_doi_role(acc);
+	if(choice=='5') return khoa_tai_khoan_full(acc);
+	if(choice == '6') return reset_password_full(acc);
+	if(choice=='7') return read_infomation(acc);
+	if(choice=='8') return send_announcement_user_manager(acc);
+	if(choice=='9') return mainmenu(acc);
+}
+
 void mainmenu(account *acc) {
 	system("cls");
-	cout<<"Chuc nang doc gia, thu thu, quan ly nguoi dung nhung chua hien thuc"<<endl;
-verify_user_full(acc);
-//add_to_demand_borrow_function( acc,"432846324");
-//add_to_demand_borrow_function( acc,"743265743");
-//add_to_demand_borrow_function( acc,"8934974145448");
-//send_demand_borrow_to_librarian_function(acc);
-//search_book_lib(acc);//approve_demand_function(acc);
-//pay_book(acc);
+	cout << "DANH SACH MENU THEO VAI TRO: " << endl;
+	cout << "1. CHUC NANG DOC GIA" << endl;
+	cout << "2. CHUC NANG CUA QUAN LY NGUOI DUNG" << endl;
+	cout << "3. CHUC NANG CUA THU THU" << endl;
+	cout << "4. DOI MAT KHAU ACCOUNT" << endl;
+	cout << "5. DANG XUAT" << endl;
+	cout << "Nhap lua chon: " << endl;
+	char choice;
+	do {
+		fflush(stdin);
+		choice = _getch();
+		fflush(stdin);
+		if (choice != '1'&&choice != '2'&&choice != '3'&&choice != '4'&&choice != '5') cout << "Hay bam lua chon dung" << endl;
+	} while (choice != '1'&&choice != '2'&&choice != '3'&&choice != '4'&&choice != '5');
+	if (choice == '1') {
+		if (acc->getRole()[0] == '1') return  menu_reader(acc);
+		if (acc->getRole()[0] == '0') {
+			cout << "BAN KHONG CO CHUC NANG DOC GIA" << endl;
+			cout << "Nhan bat ky de tro ve" << endl;
+			fflush(stdin);
+			char choice;
+			choice = _getch();
+			fflush(stdin);
+			return mainmenu(acc);
+		}
+	}
+	if (choice == '2') {
+		if (acc->getRole()[1] == '1') return  menu_mgr(acc);
+		if (acc->getRole()[1] == '0') {
+			cout << "BAN KHONG CO CHUC NANG QUAN LY NGUOI DUNG" << endl;
+			cout << "Nhan bat ky de tro ve" << endl;
+			fflush(stdin);
+			char choice;
+			choice = _getch();
+			fflush(stdin);
+			return mainmenu(acc);
+		}
+	}
+	if (choice == '3') {
+		if (acc->getRole()[2] == '1') return  menu_lib(acc);
+		if (acc->getRole()[2] == '0') {
+			cout << "BAN KHONG CO CHUC NANG THU THU" << endl;
+			cout << "Nhan bat ky de tro ve" << endl;
+			fflush(stdin);
+			char choice;
+			choice = _getch();
+			fflush(stdin);
+			return mainmenu(acc);
+		}
+	}
+	if (choice == '4') return change_password(acc);
+	if (choice == '5') return log_out(acc);
 }
 
 
 ////////////////////////////////////////////////////////////////////
 //Dang nhap
+void log_out(account *acc) {
+	delete_entire_demand(acc);
+	delete acc;
+	acc=NULL;
+
+	return firstmenu();
+}
 
 int login_function(string username, string password, account *&acc) {
 	account *temp=new account();
 	fstream outfile;
 	string datatemp;
 	outfile.open("account.txt", ios::in);
-	while (!outfile.eof()) {
-		getline(outfile,datatemp);
+	while (getline(outfile, datatemp)) {
+		
 		temp->setUsername(datatemp);
 		getline(outfile,datatemp);
 		temp->setPassword(datatemp);
@@ -117,8 +255,8 @@ void change_account_password_function(string account_username, string newPasswor
 	string datatemp;
 	account *tempaccount=new account();
 	int flag=0;
-	while (!outfile.eof()) {
-		getline(outfile, datatemp);
+	while (getline(outfile, datatemp)) {
+	
 		tempaccount->setUsername(datatemp);
 		getline(outfile, datatemp);
 		tempaccount->setPassword(datatemp);
@@ -429,8 +567,8 @@ void change_user_infomation_choice_function(string ID, string change, int choice
 	string datatemp;
 	user *temp=new user();
 	int flag=0;
-	while (!outfile.eof()) {
-		getline(outfile,datatemp);
+	while (getline(outfile, datatemp)) {
+		
 		temp->setName(datatemp);
 		getline(outfile,datatemp);
 		temp->setCMND(datatemp);
@@ -566,8 +704,7 @@ user getinfouser(string ID) {
 	string datatemp;
 	int count = 1;
 	user *temp=new user();
-	while (!outfile.eof()) {
-		getline(outfile,datatemp);
+	while (getline(outfile, datatemp)) {
 		temp->setName(datatemp);
 		getline(outfile,datatemp);
 		temp->setCMND(datatemp);
@@ -605,6 +742,7 @@ void change_user_infomation_function(string ID) {
 	cout<<"Ngay sinh: "<<getDay(newUser->getBirthday())<<endl;
 	cout<<"Email: "<<newUser->getEmail()<<endl;
 	cout<<"Nghe nghiep: "<<newUser->getJob()<<endl;
+	find_all_account_with_user_id_function(newUser);
 	printline();
 	cout<<"1. Thay doi SDT"<<endl;
 	cout<<"2. Thay doi dia chi"<<endl;
@@ -639,20 +777,22 @@ void change_user_infomation() {
 		if (check_ID_in_file(ID) == 1) { //TO DO
 			cout << "ID hop le" << endl;
 			break;
-		} else {
-			cout << "ID khong ton tai.Xin vui long nhap lai ID hop le."<<endl;
-			cout<<"Trong truong hop chua co ID hop le, xin vui long dang ky thong tin ca nhan truoc."<<endl;
-			cout<<"Nhan 1 de tiep tuc nhap ID khac"<<endl;
-			cout<<"Nhan bat ky de tro ve."<<endl;
+		}
+		else {
+			cout << "ID khong ton tai.Xin vui long nhap lai ID hop le." << endl;
+			cout << "Trong truong hop chua co ID hop le, xin vui long dang ky thong tin ca nhan truoc." << endl;
+			cout << "Nhan 1 de tiep tuc nhap ID khac" << endl;
+			cout << "Nhan bat ky de tro ve." << endl;
 			fflush(stdin);
-			key=_getch();
+			key = _getch();
 			fflush(stdin);
-			if(key=='1') {
+			if (key == '1') {
 				return change_user_infomation();
-			} else return firstmenu();
+			}
+			else return firstmenu();
 		}
 	}
-	cout<<"Nhap password cua thong tin nguoi dung: "<<endl;
+	cout << "Nhap password cua thong tin nguoi dung: " << endl;
 	while (1) {
 		cin.clear();
 		fflush(stdin);
@@ -660,16 +800,18 @@ void change_user_infomation() {
 		if (check_ID_password_in_file(password) == 1) { //TO DO
 			cout << "Mat khau hop le" << endl;
 			break;
-		} else {
-			cout << "Mat khau khong dung.Xin vui long nhap lai t u dau."<<endl;
-			cout<<"Nhan 1 de tiep tuc nhap ID va mat khau khac."<<endl;
-			cout<<"Nhan bat ky de tro ve."<<endl;
+		}
+		else {
+			cout << "Mat khau khong dung.Xin vui long nhap lai t u dau." << endl;
+			cout << "Nhan 1 de tiep tuc nhap ID va mat khau khac." << endl;
+			cout << "Nhan bat ky de tro ve." << endl;
 			fflush(stdin);
-			key=_getch();
+			key = _getch();
 			fflush(stdin);
-			if(key=='1') {
+			if (key == '1') {
 				return change_user_infomation();
-			} else return firstmenu();
+			}
+			else return firstmenu();
 		}
 	}
 

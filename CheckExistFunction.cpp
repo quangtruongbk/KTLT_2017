@@ -154,8 +154,8 @@ int check_exist_username_in_permissionaccount(string username) {
 	string datatemp;
 	account *tempaccount=new account();
 	int flag=0;
-	while (!outfile.eof()) {
-		getline(outfile, datatemp);
+	while (getline(outfile, datatemp)) {
+		
 		tempaccount->setUsername(datatemp);
 		getline(outfile, datatemp);
 		tempaccount->setPassword(datatemp);
@@ -178,8 +178,8 @@ int check_account_username(string username, account*&temp) {
 	fstream outfile;
 	string datatemp;
 	outfile.open("account.txt", ios::in);
-	while (!outfile.eof()) {
-		getline(outfile,datatemp);
+	while (getline(outfile, datatemp)) {
+		
 		temp->setUsername(datatemp);
 		getline(outfile,datatemp);
 		temp->setPassword(datatemp);
@@ -203,8 +203,8 @@ int check_account_username_and_ID(string username, string ID) {
 	string datatemp;
 	outfile.open("account.txt", ios::in);
 	account *temp=new account();
-	while (!outfile.eof()) {
-		getline(outfile,datatemp);
+	while (getline(outfile, datatemp)) {
+		
 		temp->setUsername(datatemp);
 		getline(outfile,datatemp);
 		temp->setPassword(datatemp);
@@ -228,8 +228,8 @@ int get_account_username(string username, account *&acc) {
 	string datatemp;
 	outfile.open("account.txt", ios::in);
 	account *temp=new account();
-	while (!outfile.eof()) {
-		getline(outfile,datatemp);
+	while (getline(outfile, datatemp)) {
+		
 		temp->setUsername(datatemp);
 		getline(outfile,datatemp);
 		temp->setPassword(datatemp);

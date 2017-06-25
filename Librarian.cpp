@@ -43,9 +43,9 @@ void send_announcement_to_all(account *acc, int sendto, string rolesend) {
 	string datatemp;
 	account *temp=new account();
 	outfile.open("account.txt", ios::in);
-	string role;
-	while (!outfile.eof()) {
-		getline(outfile,datatemp);
+	while (getline(outfile, datatemp)) {
+		string role = "000";
+	
 		temp->setUsername(datatemp);
 		getline(outfile,datatemp);
 		temp->setPassword(datatemp);
@@ -138,7 +138,7 @@ void send_announcement(account *acc) {
 	if(choice=='1') send_announcement_to_all(acc,0,"3");
 	if(choice=='2') send_announcement_to_individual(acc,"3");
 	if(choice=='3') send_announcement_to_all(acc,1,"3") ;
-//	if(choice=='4') //To Doooooooooooooooo
+	if(choice=='4') return mainmenu(acc);
 }
 
 //////////////
@@ -1070,28 +1070,26 @@ void manage_book_store(account *acc_librarian) {
 	cout<<"4. Thay doi tac gia sach"<<endl;
 	cout<<"5. Thay doi nha xuat ban sach"<<endl;
 	cout<<"6. Thay doi the loai sach"<<endl;
-	cout<<"7. Thay doi nam xuat ban sach"<<endl;
-	cout<<"8. Thay doi so luong sach"<<endl;
-	cout<<"9. Thay doi gia thue sach"<<endl;
-	cout<<"10. Tro ve"<<endl;
+	cout<<"7. Thay doi so luong sach"<<endl;
+	cout<<"8. Thay doi gia thue sach"<<endl;
+	cout<<"9. Tro ve"<<endl;
 	char choice;
 	cout<<"Nhap lua chon:"<<endl;
 	do {
 		fflush(stdin);
-		choice=_getch();
+		choice = _getch();
 		fflush(stdin);
-		if(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7'&&choice!='8'&&choice!='9'&&choice!='10') cout<<"Hay bam lua chon dung"<<endl;
-	} while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7'&&choice!='8'&&choice!='9'&&choice!='10');
+		if(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7'&&choice!='8'&&choice!='9') cout<<"Hay bam lua chon dung"<<endl;
+	} while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4'&&choice!='5'&&choice!='6'&&choice!='7'&&choice!='8'&&choice!='9');
 	if(choice=='1') return add_book_to_store(acc_librarian);
 	if(choice=='2') return delete_book_in_store(acc_librarian);
 	if(choice=='3') return change_name_book_store(acc_librarian);
 	if(choice=='4') return change_author_book_store(acc_librarian);
 	if(choice=='5') return change_publisher_book_store(acc_librarian);
 	if(choice=='6') return change_category_book_store(acc_librarian);
-	if(choice=='7') return change_year_book_store(acc_librarian);
-	if(choice=='8') return change_amount_book_store(acc_librarian);
-	if(choice=='9') return change_price_book_store(acc_librarian);
-	if(choice=='10') return mainmenu(acc_librarian);
+	if(choice=='7') return change_amount_book_store(acc_librarian);
+	if(choice=='8') return change_price_book_store(acc_librarian);
+	if(choice=='9') return mainmenu(acc_librarian);
 }
 
 int count_number_of_waiting_book(account *acc) {
@@ -1333,85 +1331,87 @@ void approve_waiting_function(account *acc_librarian, account *acc_reader, strin
 }
 
 void start_approve_waiting(account *acc_librarian) {
-	int N=count_number_of_book_waiting_file(acc_librarian);
-	account *acc_reader=new account[N];
-	Book *book=new Book[N];
-	get_all_book_waiting_infomation(acc_librarian, acc_reader,  book);
-	if(N>0) {
-		for(int i=0; i<N; i++) {
-			system("cls");
-			cout<<"ID nguoi muon: "<<acc_reader[i].getID()<<endl;
-			cout<<"Account: "<<acc_reader[i].getUsername()<<endl;
-			cout<<"ISBN sach muon muon: "<<book[i].ISBN<<endl;
-			cout<<"Ten cua sach muon muon: "<<book[i].name<<endl;
-			int amount=get_book_amount(book[i].ISBN);
-			cout<<"So luong sach con trong kho: "<<amount<<endl;
-			if(amount>0) {
-				cout<<"1. Dong y cho muon"<<endl;
-				cout<<"2. Tiep tuc doi"<<endl;
-				cout<<"Nhap lua chon:"<<endl;
+	int N = count_number_of_book_waiting_file(acc_librarian);
+	account *acc_reader = new account[N];
+	Book *book = new Book[N];
+	get_all_book_waiting_infomation(acc_librarian, acc_reader, book);
+
+	if (N > 0) {
+		for (int i = 0; i<N; i++) {
+			//system("cls");
+			cout << "ID nguoi muon: " << acc_reader[i].getID() << endl;
+			cout << "Account: " << acc_reader[i].getUsername() << endl;
+			cout << "ISBN sach muon muon: " << book[i].ISBN << endl;
+			cout << "Ten cua sach muon muon: " << book[i].name << endl;
+			int amount = get_book_amount(book[i].ISBN);
+			cout << "So luong sach con trong kho: " << amount << endl;
+			if (amount>0) {
+				cout << "1. Dong y cho muon" << endl;
+				cout << "2. Tiep tuc doi" << endl;
+				cout << "Nhap lua chon:" << endl;
 				char choice;
 				do {
 					fflush(stdin);
-					choice=_getch();
+					choice = _getch();
 					fflush(stdin);
-					if(choice!='1'&&choice!='2') cout<<"Hay bam lua chon dung"<<endl;
-				} while(choice!='1'&&choice!='2');
-				if(choice=='1'&&i<(N-1)) approve_waiting_function(acc_librarian,acc_reader+i,book[i].ISBN,*book);
-				if(choice=='1'&&i==(N-1)) {
-					approve_waiting_function(acc_librarian,acc_reader+i,book[i].ISBN,*book);
-					cout<<"Da den cuoi hang doi"<<endl;
-					cout<<"Nhan bat ky de tro ve"<<endl;
-					cout<<"Nhan bat ky de tro ve"<<endl;
+					if (choice != '1'&&choice != '2') cout << "Hay bam lua chon dung" << endl;
+				} while (choice != '1'&&choice != '2');
+				if (choice == '1'&&i < (N - 1)) approve_waiting_function(acc_librarian, acc_reader + i, book[i].ISBN, *book);
+				if (choice == '1'&&i == (N - 1)) {
+					approve_waiting_function(acc_librarian, acc_reader + i, book[i].ISBN, *book);
+					cout << "Da den cuoi hang doi" << endl;
+					cout << "Nhan bat ky de tro ve" << endl;
+					cout << "Nhan bat ky de tro ve" << endl;
 					fflush(stdin);
 					char choice;
-					choice=_getch();
+					choice = _getch();
 					fflush(stdin);
 					return approve_waiting(acc_librarian);
 				}
-				if(choice=='2'&&i<(N-1)) system("cls");
-				if(choice=='2' &&i==(N-1)) {
-					cout<<"Da den cuoi hang doi"<<endl;
-					cout<<"Nhan bat ky de tro ve"<<endl;
-					cout<<"Nhan bat ky de tro ve"<<endl;
+				if (choice == '2'&&i < (N - 1)) system("cls");
+				if (choice == '2' &&i == (N - 1)) {
+					cout << "Da den cuoi hang doi" << endl;
+					cout << "Nhan bat ky de tro ve" << endl;
+					cout << "Nhan bat ky de tro ve" << endl;
 					fflush(stdin);
 					char choice;
-					choice=_getch();
+					choice = _getch();
 					fflush(stdin);
 					return approve_waiting(acc_librarian);
 				}
-				if(amount<=0) {
-					cout<<"1. Tiep tuc doi"<<endl;
-					cout<<"Nhap lua chon:"<<endl;
+			}
+			if (amount <= 0) {
+				cout << "1. Tiep tuc doi" << endl;
+				cout << "Nhap lua chon:" << endl;
+				char choice;
+				do {
+					fflush(stdin);
+					choice = _getch();
+					fflush(stdin);
+					if (choice != '1') cout << "Hay bam lua chon dung" << endl;
+				} while (choice != '1');
+				if (choice == '1'&&i < (N - 1))  system("cls");
+				if (choice == '1'&&i == (N - 1)) {
+					cout << "Da den cuoi hang doi" << endl;
+					cout << "Nhan bat ky de tro ve" << endl;
+					cout << "Nhan bat ky de tro ve" << endl;
+					fflush(stdin);
 					char choice;
-					do {
-						fflush(stdin);
-						choice=_getch();
-						fflush(stdin);
-						if(choice!='1') cout<<"Hay bam lua chon dung"<<endl;
-					} while(choice!='1') ;
-					if(choice=='1'&&i<(N-1))  system("cls");
-					if(choice=='1'&&i==(N-1)) {
-						cout<<"Da den cuoi hang doi"<<endl;
-						cout<<"Nhan bat ky de tro ve"<<endl;
-						cout<<"Nhan bat ky de tro ve"<<endl;
-						fflush(stdin);
-						char choice;
-						choice=_getch();
-						fflush(stdin);
-						return approve_waiting(acc_librarian);
+					choice = _getch();
+					fflush(stdin);
+					return approve_waiting(acc_librarian);
 
-					}
 				}
 			}
 		}
 	}
-	if(N==0) {
-		cout<<"Hang doi rong"<<endl;
-		cout<<"Nhan bat ky de tro ve"<<endl;
+
+	if (N == 0) {
+		cout << "Hang doi rong" << endl;
+		cout << "Nhan bat ky de tro ve" << endl;
 		fflush(stdin);
 		char choice;
-		choice=_getch();
+		choice = _getch();
 		fflush(stdin);
 		return approve_waiting(acc_librarian);
 	}
@@ -1420,7 +1420,8 @@ void start_approve_waiting(account *acc_librarian) {
 void approve_waiting(account *acc_librarian) {
 	system("cls");
 	show_book_waiting_line();
-	cout<<"1. Bat dau duyet hand doi"<<endl;
+	cout<<"CHUC NANG XY LY HANG DOI CUA THU THU "<<acc_librarian->getUsername()<<endl;
+	cout<<"1. Bat dau duyet hang doi"<<endl;
 	cout<<"2. Tro ve"<<endl;
 	char choice;
 	cout<<"Nhap lua chon:"<<endl;
@@ -1499,7 +1500,7 @@ void send_demand_to_waiting_line_function(account *acc_librarian) {
 void send_announcement_because_late(account *acc_librarian, string username, string ISBN, string content) {
 	string day;
 	day=currentDateTime();
-	announcement *newAnnounce=new announcement(content,day,"0","1",acc_librarian);
+	announcement *newAnnounce=new announcement(content,day,"0","3",acc_librarian);
 
 	newAnnounce->send_to_user(username);
 	add_announcement_to_archive(newAnnounce,acc_librarian,username);
@@ -1568,9 +1569,9 @@ void send_announcement_because_pay_book(account *acc_reader, string ISBN, string
 	string datatemp;
 	account *temp=new account();
 	outfile.open("account.txt", ios::in);
-	string role;
-	while (!outfile.eof()) {
-		getline(outfile,datatemp);
+	string role="000";
+	while (getline(outfile, datatemp)) {
+
 		temp->setUsername(datatemp);
 		getline(outfile,datatemp);
 		temp->setPassword(datatemp);
@@ -1700,7 +1701,7 @@ void pay_a_single_book_function(account *acc_reader, string ISBN, int &price) {
 	add_to_history_file(acc_reader, "Toi tra sach: ISBN "+book.ISBN+", ten: "+book.name+", vao ngay: "+date);
 	delete_single_book_in_people_already_have(acc_reader,  book.ISBN);
 	string content=acc_reader->getUsername()+" tra sach: ISBN: "+book.ISBN+", ten la: "+book.name;
-	send_announcement_because_pay_book(acc_reader, ISBN, content);
+	//send_announcement_because_pay_book(acc_reader, ISBN, content);
 
 }
 
@@ -1727,7 +1728,7 @@ void pay_a_single_book(account *acc_librarian, account *acc_reader) {
 		char choice;
 		choice=_getch();
 		fflush(stdin);
-		return pay_book(acc_librarian);
+		return mainmenu(acc_librarian);
 	}
 }
 
@@ -1781,11 +1782,12 @@ void pay_all_book(account *acc_librarian, account *acc_reader) {
 	char choice;
 	choice=_getch();
 	fflush(stdin);
-	return pay_book(acc_librarian);
+	return mainmenu(acc_librarian);
 }
 
 void pay_book(account *acc_librarian) {
 	system("cls");
+	cout<<"CHUC NANG QUAN LY TRA SACH, XU LY THAC LAC SACH CUA THU THU "<<acc_librarian->getUsername()<<endl;
 	cout<<"Nhap username ban doc: "<<endl;
 	string username;
 	getline(cin,username);
@@ -1816,8 +1818,8 @@ void pay_book(account *acc_librarian) {
 			fflush(stdin);
 			choice=_getch();
 			fflush(stdin);
-			if(choice!='1'&&choice!='2'&&choice!='3') cout<<"Hay bam lua chon dung"<<endl;
-		} while(choice!='1'&&choice!='2'&&choice!='3');
+			if(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4') cout<<"Hay bam lua chon dung"<<endl;
+		} while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4');
 		if(choice=='1') return pay_a_single_book(acc_librarian,acc_reader);
 		if(choice=='2') return pay_all_book(acc_librarian, acc_reader);
 		if(choice=='3') return announce_lost_book(acc_librarian, acc_reader);
@@ -1882,9 +1884,9 @@ void send_announcement_because_lost_book(account *acc_reader, string ISBN) {
 	string datatemp;
 	account *temp=new account();
 	outfile.open("account.txt", ios::in);
-	string role;
-	while (!outfile.eof()) {
-		getline(outfile,datatemp);
+	string role="000";
+	while (getline(outfile, datatemp)) {
+		
 		temp->setUsername(datatemp);
 		getline(outfile,datatemp);
 		temp->setPassword(datatemp);

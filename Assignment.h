@@ -218,6 +218,7 @@ void change_user_infomation();
 void change_user_infomation_choice_function(string ID, string change, int choice);
 void change_user_infomation_function(string ID);
 user getinfouser(string ID);
+void log_out(account *acc);
 //////////////Moi them vao
 
 //Function for User Manager
@@ -241,6 +242,7 @@ void search_user_all(account *acc_manager);
 void search_account_all(account *acc_manager);
 void khoa_tai_khoan_full(account *acc_manager);
 void thay_doi_role(account *acc_manager);
+void reset_password_full(account *manager);
 ////////////Moi them vao 
 //Function for Reader
 void search_book_all();//To do
@@ -286,6 +288,7 @@ void announce_lost_book(account *acc_librarian, account*acc_reader);
 void already_have_book(account *acc);
 void add_to_demand_borrow_searching_function(account *acc,string ISBN);
 void read_book_info(account *acc_reader);
+void delete_entire_demand(account *acc);
 ////////////////Moi them vao
 //Function for Librarian
 void add_new_book(); //2

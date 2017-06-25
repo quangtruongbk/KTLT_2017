@@ -209,6 +209,7 @@ void show_all_book(account *acc_reader) {
 
 
 void show_book_via_category(account *acc_reader) {
+	system("cls");
 	unsigned int choice = 0;
 	do {
 		fflush(stdin);
@@ -222,6 +223,7 @@ void show_book_via_category(account *acc_reader) {
 	ss << choice;
 	string str;
 	ss >> str;
+	printtitle();
 	str=getcategoryname(choice);
 	find_the_loai(str, 3);
 	char choice1;
@@ -442,6 +444,8 @@ void search_tuy_chon(account *acc_reader) {
 		key=uppercase(key);
 		if(key=="") cout<<"Khong duoc de trong, hay nhap lai "<<endl;
 	} while(key=="");
+	system("cls");
+	printtitle();
 	if(choice==1) find_key(key,choice-1);
 	if(choice==2) find_key(key,choice-1);
 	if(choice==3) find_key(key,choice-1);
@@ -1234,7 +1238,7 @@ void show_all_announcement(account *acc) {
 		cout<<"|"<<setw(14)<<left<<temp->getID()<<"|";
 		if(temp->getAnnounce().length()<40) cout<<setw(39)<<left<<temp->getAnnounce();
 		else {
-			for(int i=0; i<38; i++) cout<<left<<temp->getAnnounce()[i];
+			for(int i=0; i<36; i++) cout<<left<<temp->getAnnounce()[i];
 			cout<<"...";
 		}
 		cout<<"|"<<setw(20)<<temp->getDate()<<"|";
@@ -1436,7 +1440,7 @@ void read_announcement(account *acc) {
 
 void send_announcement_reader(account *acc) {
 	system("cls");
-	cout<<"CHUC NANG GUI THONG BAO CUA ACCOUNT: "<<acc->getUsername()<<endl;
+	cout<<"CHUC NANG GUI THONG BAO CUA DOC GIA ACCOUNT: "<<acc->getUsername()<<endl;
 	cout<<"1. Gui thong bao cho quan ly nguoi dung."<<endl;
 	cout<<"2. Gui thong bao cho thu thu."<<endl;
 	cout<<"3. Tro ve."<<endl;
