@@ -1,4 +1,5 @@
 #include "Assignment.h"
+// Check ID trong user.txt
 int check_ID_in_file(string ID) {
 	fstream outfile;
 	outfile.open("user.txt", ios::in);
@@ -17,7 +18,7 @@ int check_ID_in_file(string ID) {
 	outfile.close();
 	return 0;
 }
-
+// check ID and password trong user.txt
 int check_ID_password_in_file(string IDpass) {
 	fstream outfile;
 	outfile.open("user.txt", ios::in);
@@ -36,7 +37,7 @@ int check_ID_password_in_file(string IDpass) {
 	outfile.close();
 	return 0;
 }
-
+// Check CMND trong user.txt
 int check_CMND_in_file(string CMND) {
 	fstream outfile;
 	outfile.open("user.txt", ios::in);
@@ -55,7 +56,7 @@ int check_CMND_in_file(string CMND) {
 	outfile.close();
 	return 0;
 }
-
+// Check CMND trong manageuser.txt
 int check_CMND_in_waiting(string CMND) {
 	fstream outfile;
 	outfile.open("manageuser.txt", ios::in);
