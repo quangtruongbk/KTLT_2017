@@ -1,5 +1,5 @@
 #include "Assignment.h"
-////////////////////////////////////////////////////////////TODO
+// Menu chinh 
 void firstmenu() {
 	system("cls");
 	cout<<"Xin chao den voi thu vien"<<endl;
@@ -26,7 +26,7 @@ void firstmenu() {
 	if(choice=='5') reset_password();
 	if(choice=='6') return;
 }
-
+//Menu Reader
 void menu_reader(account *acc) {
 	system("cls");
 	cout << "MENU CHUC NANG CUA DOC GIA:" <<acc->getUsername()<<endl;
@@ -53,7 +53,7 @@ void menu_reader(account *acc) {
 	if(choice=='6') return send_announcement_reader(acc);
 	if(choice=='7') return mainmenu(acc);
 }
-
+// Menu librarian
 void menu_lib(account *acc) {
 	system("cls");
 	cout << "MENU CHUC NANG CUA THU THU:" << endl;
@@ -82,7 +82,7 @@ void menu_lib(account *acc) {
 	if(choice=='7') return read_infomation(acc);
 	if(choice=='8') return mainmenu(acc);
 }
-
+//Menu user manager
 void menu_mgr(account *acc) {
 	system("cls");
 	cout << "MENU CHUC NANG CUA QUAN LY NGUOI DUNG:"<<endl;
@@ -113,7 +113,7 @@ void menu_mgr(account *acc) {
 	if(choice=='8') return send_announcement_user_manager(acc);
 	if(choice=='9') return mainmenu(acc);
 }
-
+//Menu main
 void mainmenu(account *acc) {
 	system("cls");
 	cout << "DANH SACH MENU THEO VAI TRO: " << endl;
@@ -449,7 +449,7 @@ void regist_user() {
 	fflush(stdin);
 	return firstmenu();
 }
-
+//Doi mat khau
 void change_password(account *acc) {
 	string oldPassword;
 	cout<<"Nhap password cu: "<<endl;
@@ -486,7 +486,7 @@ void change_password(account *acc) {
 		else return mainmenu(acc);
 	}
 }
-
+// Reset mat khau
 void reset_password() {
 	system("cls");
 	string ID, password, username;
@@ -558,7 +558,7 @@ void reset_password() {
 		}
 	}
 }
-
+//Doi thong tin nguoi dung
 void change_user_infomation_choice_function(string ID, string change, int choice) {
 	fstream outfile;
 	outfile.open("user.txt", ios::in);
