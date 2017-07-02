@@ -1,7 +1,7 @@
 #include "Assignment.h"
 //////////////////////////////////////////////////////////////////////////////////
 // Phan quyen cho account, nho chu y CLOSE va OPEN, phai check ky xem CO TON TAI TEMP hay khong.
-
+//Xoa trong permission account
 void delete_in_permissionaccount(string username) {
 	fstream outfile;
 	outfile.open("permissionaccount.txt", ios::in);
@@ -30,7 +30,7 @@ void delete_in_permissionaccount(string username) {
 	remove("permissionaccount.txt");
 	rename("temp.txt", "permissionaccount.txt");
 }
-
+//Doi vai tro account
 void change_role_function(string username, string newRole) {
 	fstream outfile;
 	outfile.open("account.txt", ios::in);
@@ -63,13 +63,6 @@ void change_role_function(string username, string newRole) {
 	rename("temp.txt", "account.txt");
 }
 
-void grant_new_role() {
-	//show thong tin cac account
-	// check xem username co khong
-	//neu co thi tien hanh grant moi role
-	//xoa ben permissionaccount
-
-}
 //////////////////////////////////////////////////////////////////////////
 //Xet duyet thong tin User
 void delete_user_in_manage_user(string ID) {
@@ -112,7 +105,7 @@ void delete_user_in_manage_user(string ID) {
 	rename("temp.txt", "manageuser.txt");
 
 }
-
+//Duyet thong tin user
 void verify_user_function(string ID) {
 	fstream outfile;
 	outfile.open("manageuser.txt", ios::in);
@@ -150,8 +143,7 @@ void verify_user_function(string ID) {
 	delete_user_in_manage_user(ID);
 }
 
-
-
+//Duyet thong tin user
 void verify_user(account *acc_usermanager) { //TO DO
 	cout<<"Nhap ID cua nguoi duoc duyet: "<<endl;
 	string ID;
@@ -173,7 +165,7 @@ void verify_user(account *acc_usermanager) { //TO DO
 		return verify_user_full(acc_usermanager);
 	}
 }
-
+//Show info User dang xet duyet
 void show_info_usermanager(account* acc_usermanager) {
 	fstream outfile;
 	outfile.open("manageuser.txt", ios::in);
@@ -200,6 +192,7 @@ void show_info_usermanager(account* acc_usermanager) {
 	cout << "----------------------------------------------------------------------\n";
 	outfile.close();
 }
+//Duyet thong tin user
 void verify_user_full(account *acc_manager) {
 	show_info_usermanager(acc_manager);
 	cout<<"1. Duyet thong tin."<<endl;
@@ -217,7 +210,7 @@ void verify_user_full(account *acc_manager) {
 }
 ////////////////////////
 
-
+//Reset password
 void reset_password_function(string account_username) {
 	account *temp1=new account();
 	if(check_account_username( account_username, temp1)==0) cout<<"Khong tim thay "<<endl;
@@ -256,7 +249,7 @@ void reset_password_function(string account_username) {
 	remove("account.txt");
 	rename("temp.txt", "account.txt");
 }
-// TO DOOOOOOOOOO
+// reset password
 void reset_password(account *usermanager) {
 	cout << "Nhap username account reset mat khau: " << endl;
 	string username;
@@ -281,6 +274,7 @@ void reset_password(account *usermanager) {
 	}
 
 }
+//Reset password toan bo
 void reset_password_full(account *manager){
 	system("cls");
 	cout << "RESET MAT KHAU" << endl;
@@ -298,7 +292,7 @@ void reset_password_full(account *manager){
 	if (choice == '2') return mainmenu(manager);
 }
 
-////////////////////
+// Thay doi active disactive
 void change_active_account(account *acc, string username, string newActive) {
 	fstream outfile;
 	outfile.open("account.txt", ios::in);
@@ -332,7 +326,7 @@ void change_active_account(account *acc, string username, string newActive) {
 	rename("temp.txt", "account.txt");
 }
 
-/////////////
+// Show thong tin user
 user show_all_user_infomation_function(account *acc_manager, string ID) {
 	fstream outfile;
 	outfile.open("user.txt", ios::in);
@@ -368,7 +362,7 @@ user show_all_user_infomation_function(account *acc_manager, string ID) {
 	}
 	outfile.close();
 }
-
+//Lay vai tro nguoi dung
 string getrolestring(string role) {
 	string rolestring="";
 	if(role[0]=='1') rolestring=rolestring+"DOC GIA"+"-";
@@ -377,7 +371,7 @@ string getrolestring(string role) {
 	if(role[0]=='0'&&role[1]=='0'&&role[2]=='0') rolestring="CHUA CO VAI TRO";
 	return rolestring;
 }
-
+//Tim account voi ID
 void find_all_account_with_user_id_function(user *newuser) {
 	fstream outfile;
 	outfile.open("account.txt", ios::in);
@@ -445,6 +439,7 @@ void printaccountinfo(account *temp) {
 	if(temp->getActive()=="0") cout<<setw(36)<<"Da bi khoa"<<"|";
 	cout<<endl;
 }
+//Tim kiem nguoi dung
 void search_user(account *acc, string userinfo, int searchchoice) {
 	fstream outfile;
 	outfile.open("user.txt", ios::in);
@@ -497,7 +492,7 @@ void search_user(account *acc, string userinfo, int searchchoice) {
 	return search_user_all(acc);
 }
 
-
+//Tim kiem account
 void search_account(account *acc, string accountinfo, int searchchoice) {
 	fstream outfile;
 	outfile.open("account.txt", ios::in);
@@ -531,7 +526,7 @@ void search_account(account *acc, string accountinfo, int searchchoice) {
 	fflush(stdin);
 	return search_account_all(acc);
 }
-
+//Tim kiem nguoi dung toan bo
 void search_user_all(account *acc_manager) {
 	system("cls");
 	cout<<"CHUC NANG TIM KIEM THONG TIN NGUOI DUNG CUA QUAN LY NGUOI DUNG: "<<acc_manager->getUsername()<<endl;
@@ -567,7 +562,7 @@ void search_user_all(account *acc_manager) {
 	if(choice=='4') return search_user(acc_manager, (userinfo), 4);
 	if (choice == '5') return search_user(acc_manager, userinfo1, 5);
 }
-
+//Tim kiem account toan bo
 void search_account_all(account *acc_manager) {
 	system("cls");
 	cout<<"CHUC NANG TIM KIEM ACCOUNT NGUOI DUNG CUA QUAN LY NGUOI DUNG: "<<acc_manager->getUsername()<<endl;
@@ -598,7 +593,7 @@ void search_account_all(account *acc_manager) {
 }
 
 //	void show_all_infomation_accoutn
-
+//Gui thong bao cua user manager
 void send_announcement_user_manager(account *acc) {
 	system("cls");
 	cout<<"CHUC NANG GUI THONG BAO CUA ACCOUNT: "<<acc->getUsername()<<endl;
@@ -619,7 +614,7 @@ void send_announcement_user_manager(account *acc) {
 	if(choice=='3') send_announcement_to_all(acc,2,"2") ;
 	if(choice=='4') return mainmenu(acc);
 }
-
+//Khoa tai khoan
 void khoa_tai_khoan(account *acc_manager) {
 	cout<<"Nhap username account can khoa: "<<endl;
 	string username;
@@ -642,7 +637,7 @@ void khoa_tai_khoan(account *acc_manager) {
 		return khoa_tai_khoan_full(acc_manager);
 	}
 }
-
+//Mo tai khoan
 void mo_tai_khoan(account *acc_manager) {
 	cout<<"Nhap username account can mo khoa: "<<endl;
 	string username;
@@ -665,7 +660,7 @@ void mo_tai_khoan(account *acc_manager) {
 		return khoa_tai_khoan_full(acc_manager);
 	}
 }
-
+//Khoa mo tai khoan
 void khoa_tai_khoan_full(account *acc_manager) {
 	system("cls");
 	cout<<"1. Khoa tai khoan"<<endl;
@@ -683,6 +678,7 @@ void khoa_tai_khoan_full(account *acc_manager) {
 	if(choice=='2') mo_tai_khoan(acc_manager);
 	if(choice=='3') return mainmenu(acc_manager);
 }
+//Show nhung account can duoc cap quyen
 void show_permissionaccount(){
 	fstream outfile;
 	outfile.open("permissionaccount.txt", ios::in);
@@ -704,6 +700,7 @@ void show_permissionaccount(){
 	cout << "----------------------------------------------------\n";
 	outfile.close();
 }
+//Cap quyen moi
 void grant_new_role(account *acc_manager) {
 	system("cls");
 	show_permissionaccount();
@@ -766,7 +763,7 @@ void grant_new_role(account *acc_manager) {
 		return thay_doi_role(acc_manager);
 	}
 }
-
+//Thay doi quyen cu
 void change_role(account *acc_manager) {
 	system("cls");
 	cout<<"Nhap username account can cap quyen moi: "<<endl;
@@ -826,6 +823,7 @@ void change_role(account *acc_manager) {
 		return thay_doi_role(acc_manager);
 	}
 }
+//Thay doi role toan bo
 void thay_doi_role(account *acc_manager) {
 	system("cls");
 	cout << "CHUC NANG THAY DOI VAI TRO" << endl;
