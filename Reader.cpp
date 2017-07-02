@@ -207,7 +207,7 @@ void show_all_book(account *acc_reader) {
 }
 
 
-
+//Show book thong qua the loai
 void show_book_via_category(account *acc_reader) {
 	system("cls");
 	unsigned int choice = 0;
@@ -238,7 +238,7 @@ void show_book_via_category(account *acc_reader) {
 	if(choice1=='1') return read_book_info(acc_reader);
 	if(choice1=='2') return search_book(acc_reader);
 }
-
+//Lay thong tin sach thong qua ISBN
 void get_book_via_ISBN(Book& book, string ISBN) {
 	fstream outfile;
 	fstream outfile2;
@@ -260,7 +260,7 @@ void get_book_via_ISBN(Book& book, string ISBN) {
 	outfile.close();
 
 }
-
+//Chon book
 void choosebook(Book& book, string foundbookISBN,int selection) {
 	stringstream ss(foundbookISBN);
 	string ISBN;
@@ -364,7 +364,7 @@ void find_the_loai(string str, int selection) {
 	}
 	outfile.close();
 }
-
+//Search tuy chon
 void search_key(string str) {
 	fstream outfile;
 	//fstream outfile2;
@@ -398,7 +398,7 @@ void search_key(string str) {
 	printline();
 	outfile.close();
 }
-
+//Search tong hop
 void search_tong_hop(account *acc_reader) {
 	system("cls");
 	string key;
@@ -464,7 +464,7 @@ void search_tuy_chon(account *acc_reader) {
 	if(choice1=='2') return search_book(acc_reader);
 
 }
-
+//Tim kiem chung
 void search_book(account *acc_reader) {
 	system("cls");
 	cout<<"CHUC NANG TIM KIEM CUA DOC GIA: "<<acc_reader->getUsername()<<endl;
@@ -549,12 +549,7 @@ void delete_single_book_cart_function(account *acc, string ISBN) {
 	rename("temp.txt", filename.c_str());
 }
 
-void delete_in_cart();
-////////////test
-
-void show_cart(account *acc);//TO DOOOOOOOOOOOOOOOOOOOo
-////////////test
-
+//Lay thong tin gia
 int get_price(account *acc) {
 	fstream outfile;
 	string filename="cart_"+acc->getUsername()+".txt";
@@ -595,7 +590,7 @@ int get_price(account *acc) {
 	return totalprice;
 }
 
-
+//Lay thong tin sach thong qua ISBN
 int getbookinfomation(Book& book, string ISBN) {
 	fstream outfile;
 	outfile.open("book.txt", ios::in);
@@ -630,8 +625,7 @@ int getbookinfomation(Book& book, string ISBN) {
 	return 0;
 }
 
-// Demand book thi ko co date duoc muon, date la tinh tu luc no bat dau duoc cho muon nen file deman_borrow_txt ko co ngay bat dau muon. ngay bat dau muon chi co trong
-// cart_txt ma thoi.
+//Dem book dang yeu cau muon
 int count_number_of_book_demand(account *acc) {
 	fstream outfile;
 	string datatemp;
@@ -650,14 +644,14 @@ int count_number_of_book_demand(account *acc) {
 	outfile.close();
 	return count;
 }
-
+//Xoa toan bo yeu cau muon
 void delete_entire_demand(account *acc) {
 	string filename="demand_book_"+acc->getUsername()+".txt";
 	ofstream outfile;
 	outfile.open(filename.c_str(), ofstream::out | ofstream::trunc);
 	outfile.close();
 }
-
+//Them sach voa yeu cau muon
 void add_to_demand_borrow_function(account *acc,string ISBN) {
 	fstream outfile;
 	if(check_exist_book_in_store(ISBN)==0||check_exist_ISBN_in_demand_file(acc, ISBN)==1||(count_number_of_waiting_of_each_person(acc)+count_in_demand_file(acc))>=4||check_exist_book_in_book_people_wanting_line(acc,  ISBN)==1) {
@@ -679,7 +673,7 @@ void add_to_demand_borrow_function(account *acc,string ISBN) {
 
 	}
 }
-
+//Them sach khi dang tim kiem vao yeu cau muon
 void add_to_demand_borrow_searching_function(account *acc,string ISBN) {
 	fstream outfile;
 	if(check_exist_book_in_store(ISBN)==0||check_exist_ISBN_in_demand_file(acc, ISBN)==1||(count_number_of_waiting_of_each_person(acc)+count_in_demand_file(acc))>=4||check_exist_book_in_book_people_wanting_line(acc,  ISBN)==1) {
@@ -716,7 +710,7 @@ void add_to_demand_borrow_searching_function(account *acc,string ISBN) {
 	}
 }
 
-
+//Them sach voa yeu cau muon 
 void add_to_demand_borrow_in_don_hang_function(account *acc,string ISBN) {
 	fstream outfile;
 	if(check_exist_book_in_store(ISBN)==0||check_exist_ISBN_in_demand_file(acc, ISBN)==1||(count_number_of_waiting_of_each_person(acc)+count_in_demand_file(acc))>=4||check_exist_book_in_book_people_wanting_line(acc,  ISBN)==1) {
@@ -756,7 +750,7 @@ void add_to_demand_borrow_in_don_hang_function(account *acc,string ISBN) {
 		return demand_book(acc);
 	}
 }
-
+//Them sach muon thong qua ISBN
 void add_to_demand_borrow(account *acc) {
 	system("cls");
 	cout<<"Nhap ISBN sach muon muon: "<<endl;
@@ -766,7 +760,7 @@ void add_to_demand_borrow(account *acc) {
 
 
 }
-
+//Gui yeu cau cho thu thu
 void send_demand_borrow_to_librarian_function(account *acc_reader) {
 	system("cls");
 	if(check_exist_in_book_people_want_to_borrow_file(acc_reader)==1||check_exist_book_in_already_one_person_have(acc_reader)==1) {
@@ -811,7 +805,7 @@ void send_demand_borrow_to_librarian_function(account *acc_reader) {
 	}
 }
 
-
+//Xoa 1 cuon trong yeu cau muon
 void delete_single_book_in_demand_function(account *acc, string ISBN) {
 	fstream outfile;
 	string filename="demand_book_"+acc->getUsername()+".txt";
@@ -840,7 +834,7 @@ void delete_single_book_in_demand_function(account *acc, string ISBN) {
 }
 
 
-
+//Xoa 1 cuon trong hang doi cua tung nguoi
 void delete_single_book_in_waiting_of_each_person_function(account *acc, string ISBN) {
 	fstream outfile;
 	string filename="book_waiting_"+acc->getUsername()+".txt";
@@ -883,7 +877,7 @@ void delete_single_book_in_waiting_of_each_person_function(account *acc, string 
 	rename("temp.txt", filename.c_str());
 	delete_after_waiting_process(acc, ISBN);
 }
-
+//Xoa 1 cuon trong hang doi cua tung nguoi
 void delete_single_book_in_waiting_of_each_person(account *acc) {
 	cout<<"Nhap ISBN cua sach can xoa: "<<endl;
 	string ISBN;
@@ -906,7 +900,7 @@ void delete_single_book_in_waiting_of_each_person(account *acc) {
 		return waiting_book(acc);
 	}
 }
-
+//Xoa sach yeu cau
 void delete_a_book_in_demand(account *acc) {
 	cout<<"Nhap ISBN cua sach can xoa: "<<endl;
 	string ISBN;
@@ -929,7 +923,7 @@ void delete_a_book_in_demand(account *acc) {
 	}
 
 }
-
+//Xoa sach dang co
 void delete_single_book_in_people_already_have(account *acc, string ISBN) {
 	fstream outfile;
 	string filename="book_already_people_have.txt";
@@ -971,7 +965,7 @@ void delete_single_book_in_people_already_have(account *acc, string ISBN) {
 	rename("temp.txt", filename.c_str());
 
 }
-
+//Xoa sasch tung nguoi dang co
 void delete_single_book_in_already_have_of_each_person_function(account *acc, string ISBN) {
 	fstream outfile;
 	string filename="book_alread_have_"+acc->getUsername()+".txt";
@@ -1025,7 +1019,7 @@ void delete_single_book_in_already_have_of_each_person_function(account *acc, st
 	rename("temp.txt", filename.c_str());
 	delete_single_book_in_people_already_have(acc,ISBN);
 }
-
+//Show toan bo yeu cau
 void show_demand_function(account *acc) {
 	system("cls");
 	fstream outfile;
@@ -1049,7 +1043,7 @@ void show_demand_function(account *acc) {
 	printline();
 	outfile.close();
 }
-
+//Yeu cau muon sach
 void demand_book(account *acc) {
 	show_demand_function(acc);
 	printline();
@@ -1070,7 +1064,7 @@ void demand_book(account *acc) {
 	if(choice=='3') return send_demand_borrow_to_librarian_function(acc);
 	if(choice=='4') return mainmenu(acc);
 }
-
+//Hang doi tung nguoi
 void show_waiting_function(account *acc) {
 	system("cls");
 	fstream outfile;
@@ -1105,7 +1099,7 @@ void show_waiting_function(account *acc) {
 	printline();
 	outfile.close();
 }
-
+//Show dang co
 void show_already_have_function(account *acc) {
 	system("cls");
 	fstream outfile;
@@ -1147,7 +1141,7 @@ void show_already_have_function(account *acc) {
 	printline();
 	outfile.close();
 }
-
+//Show sach chua duoc duyet
 void show_book_not_already_approve(account *acc_reader) {
 	system("cls");
 	fstream outfile;
@@ -1188,7 +1182,7 @@ void show_book_not_already_approve(account *acc_reader) {
 	fflush(stdin);
 	return waiting_book(acc_reader);
 }
-
+//Sach dang doi
 void waiting_book(account *acc) {
 	system("cls");
 	show_waiting_function(acc);
@@ -1210,7 +1204,7 @@ void waiting_book(account *acc) {
 
 
 
-/// chua xong
+/// show toan bo thong bao
 void show_all_announcement(account *acc) {
 	fstream outfile;
 	string filename="announcement_"+acc->getUsername()+".txt";
@@ -1247,7 +1241,7 @@ void show_all_announcement(account *acc) {
 	}
 	outfile.close();
 }
-
+//Delete toan bo thong bao
 void delete_entire_announcement(account *acc) {
 	system("cls");
 	cout<<"Ban co chac muon xoa toan bo thong bao hay khong? "<<endl;
@@ -1275,7 +1269,7 @@ void delete_entire_announcement(account *acc) {
 		return read_announcement(acc);
 	}
 }
-
+//Delete nhung thong bao da seen
 void delete_already_seen_announcement(account *acc) {
 	system("cls");
 	cout<<"Ban co chac muon xoa thong bao chua doc hay khong? "<<endl;
@@ -1328,7 +1322,7 @@ void delete_already_seen_announcement(account *acc) {
 	}
 	if(choice=='2') read_announcement(acc);
 }
-
+//Chuyen thong bao thanh da doc
 void set_announcement_already_seen(string ID, account *acc) {
 	fstream outfile;
 	string filename="announcement_"+acc->getUsername()+".txt";
@@ -1358,6 +1352,7 @@ void set_announcement_already_seen(string ID, account *acc) {
 	remove(filename.c_str());
 	rename("temp.txt",filename.c_str());
 }
+//Doc thong bao voi ID
 void read_announcement_with_ID_function(account *acc, string ID) {
 	system("cls");
 	fstream outfile;
@@ -1394,7 +1389,7 @@ void read_announcement_with_ID_function(account *acc, string ID) {
 	fflush(stdin);
 	return read_announcement(acc);
 }
-
+//Doc thong bao voi ID
 void read_announcement_with_ID(account *acc) {
 	string ID;
 	cout<<"Nhap ma thong bao ban muon doc: "<<endl;
@@ -1413,7 +1408,7 @@ void read_announcement_with_ID(account *acc) {
 		else return read_announcement(acc);
 	}
 }
-
+//Doc thong bao
 void read_announcement(account *acc) {
 	system("cls");
 	cout<<"BANG THONG BAO CUA USER "<<acc->getUsername()<<endl<<endl;
@@ -1437,7 +1432,7 @@ void read_announcement(account *acc) {
 	if(choice=='4')  return read_infomation(acc);
 
 }
-
+//Gui thong bao
 void send_announcement_reader(account *acc) {
 	system("cls");
 	cout<<"CHUC NANG GUI THONG BAO CUA DOC GIA ACCOUNT: "<<acc->getUsername()<<endl;
@@ -1457,9 +1452,7 @@ void send_announcement_reader(account *acc) {
 	if(choice=='3') return mainmenu(acc);
 }
 
-
-
-
+//Add thong tin vao lich su
 void add_to_history_file(account *acc_reader, string history) {
 	fstream outfile;
 	string filetemp="temp_"+acc_reader->getUsername()+".txt";
@@ -1495,7 +1488,7 @@ void add_to_history_file(account *acc_reader, string history) {
 	remove(filename.c_str());
 	rename(filetemp.c_str(),filename.c_str());
 }
-
+//Doc thong tin account
 void read_account_infomation(account *acc_reader) {
 	system("cls");
 	user *newUser=new user();
@@ -1521,7 +1514,7 @@ void read_account_infomation(account *acc_reader) {
 	return read_infomation(acc_reader);
 
 }
-
+//Show lich su
 void show_history(account *acc_reader) {
 	fstream outfile;
 	string filename="history_"+acc_reader->getUsername()+".txt";
@@ -1552,7 +1545,7 @@ void show_history(account *acc_reader) {
 	}
 	outfile.close();
 }
-
+//Doc lich su voi ID
 void read_history_with_ID_function(account *acc, string ID) {
 	system("cls");
 	fstream outfile;
@@ -1582,7 +1575,7 @@ void read_history_with_ID_function(account *acc, string ID) {
 	fflush(stdin);
 	return read_history(acc);
 }
-
+//Doc lich su voi ID
 void read_history_with_ID(account *acc) {
 	string ID;
 	cout<<"Nhap stt lich su ban muon doc: "<<endl;
@@ -1601,7 +1594,7 @@ void read_history_with_ID(account *acc) {
 		else read_announcement(acc);
 	}
 }
-
+//Doc lich su
 void read_history(account *acc) {
 	system("cls");
 	cout<<"LICH SU CUA USER "<<acc->getUsername()<<endl<<endl;
@@ -1621,7 +1614,7 @@ void read_history(account *acc) {
 	if(choice=='2') return read_infomation(acc);
 
 }
-
+//Doc thong tin
 void read_infomation(account *acc) {
 	system("cls");
 	cout<<"DOC THONG TIN CUA ACCOUNT:"<<acc->getUsername()<<endl;
@@ -1646,9 +1639,7 @@ void read_infomation(account *acc) {
 
 }
 
-
-
-
+//Nhung sach da co
 void already_have_book(account *acc_reader) {
 	show_already_have_function(acc_reader);
 	cout<<"Nhan bat ky de tro ve"<<endl;
