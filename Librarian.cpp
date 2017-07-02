@@ -187,7 +187,7 @@ void add_book_to_store(account *acc_librarian) {
 			fflush(stdin);
 			choiceISBN = _getch();
 			fflush(stdin);
-			if (choiceISBN != '1') return add_book(acc_librarian);
+			if (choiceISBN != '1') return manage_book_store(acc_librarian);
 		}
 	} while ((newBook->ISBN == ""||check_ISBN_Book(newBook->ISBN)==1)&&choiceISBN=='1');
 	cout<<"Nhap ten sach can them vao: "<<endl;
