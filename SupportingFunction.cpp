@@ -1,19 +1,19 @@
 #include"Assignment.h"
-
+//Chuyen chu thuong thanh chu hoa
 string uppercase(string name) {
 	for(int i=0; i<name.length(); i++) {
 		name[i]=toupper(name[i]);
 	}
 	return name;
 }
-
+//Tu int sang string
 string from_int_to_string(int N) {
 	stringstream ss;
 	ss << N;
 	string str = ss.str();
 	return str;
 }
-
+//Check ngay hop le
 int check_valid_date(date date_struct) {
 	int ny_days [13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	int ly_days [13] = {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -28,7 +28,7 @@ int check_valid_date(date date_struct) {
 	if (date_struct.year < 1900 || date_struct.year>2017) return 0;
 	return 1;
 }
-
+//Nhap ngay thang nam sinh
 string input_date() {
 	date input;
 	do {
@@ -51,26 +51,26 @@ string input_date() {
 	string birthday=day+" "+month+" "+year;
 	return birthday;
 }
-
+//Check co phai la so khong
 int check_number(string N) {
 	for(int i=0; i<N.length(); i++) {
 		if(isdigit(N[i])==0) return 0;
 	}
 	return 1;
 }
-
+//Check co phai la chu khong
 int check_string(string N) {
 	for(int i=0; i<N.length(); i++) {
 		if(isalpha(N[i])==0 && N[i]!=' ') return 0;
 	}
 	return 1;
 }
-
+//Check co blankspace khong
 int check_not_blankspace(string N) {
 	if(N=="") return 0;
 	return 1;
 }
-
+//Check blankspace trong username
 int check_username_blank_space(string username) {
 	//TO DO : check special character
 	for(int i=0; i<username.length(); i++) {
@@ -78,7 +78,7 @@ int check_username_blank_space(string username) {
 	}
 	return 1;
 }
-
+//Check legal cua username
 int check_username_legal(string username) {
 	for(int i=0; i<username.length(); i++) {
 		if(isalnum(username[i])==0) {
@@ -92,6 +92,7 @@ int stringLength = sizeof(alphanum) - 1;
 char genRandom() {
 	return alphanum[rand() % stringLength];
 }
+//Lay chuoi ngau nhien
 string randomstring() {
 	srand(time(0));
 	std::string Str;
@@ -100,7 +101,7 @@ string randomstring() {
 	}
 	return Str;
 }
-
+//Lay ngay hien tai
 string getCurrentDate(){
 	time_t t = time(0);   // get time now
     struct tm * now = localtime( & t );
@@ -110,7 +111,7 @@ string getCurrentDate(){
     string date=from_int_to_string(day)+" "+from_int_to_string(month)+" "+from_int_to_string(year);
     return date;
 }
-
+//Lay ngay hien tai theo cau truc chuoi
 string getDay(string send_day) {
 	string day, month,  year;
 	stringstream ss;
@@ -119,7 +120,7 @@ string getDay(string send_day) {
 	return day+"/"+month+"/"+year;
 }
 
-
+//Lay ngay gio
 string currentDateTime() {
 	time_t rawtime;
 	struct tm * timeinfo;
@@ -130,7 +131,7 @@ string currentDateTime() {
 	string str(buffer);
 	return str;
 }
-
+//Lay the loai sach
 string get_Category_Book_string(string choice) {
 	if(choice=="1") return  "VAN HOC" ;
 	if(choice=="2") return 	"THIEU NHI";
@@ -146,37 +147,13 @@ string get_Category_Book_string(string choice) {
 	if(choice=="12") return  "THE LOAI KHAC" ;
 }
 
-//int get_category_number(string category, int categoryarray[MAXCATEGORY]){
-//	stringstream ss;
-//	ss<<category;
-//	string data;
-//	int categoryint;
-//	for(int i=0; i<MAXCATEGORY;i++) categoryarray[i]=0;
-//	while(!ss.eof()){
-//		ss>>data;
-//		categoryint=atoi(data.c_str());
-//		categoryarray[categoryint-1]=1;
-//	//	cout<<"test category "<<categoryint<<endl;
-//	}
-//}
-//
-//string print_category(string category){
-//	int categoryarray[MAXCATEGORY];
-//	get_category_number(category,categoryarray);
-//	string N;
-//	for(int i=0;i<MAXCATEGORY;i++){
-//		if(categoryarray[i]==1) N=N+","+get_Category_Book_string(from_int_to_string(i+1));
-//	}
-//	if(N[0]==',') N[0]=' ';
-//	return N;
-//}
-
+//Tinh khoang cach thoi gian
 int distance_date_function(int d, int m, int y) { 
     if (m < 3)
         y--, m += 12;
     return 365*y + y/4 - y/100 + y/400 + (153*m - 457)/5 + d - 306;
 }
-
+//Tinh khoan cach thoi gian
 int distance_date(string dateborrow){
 	stringstream ss;
 	ss<<dateborrow;
